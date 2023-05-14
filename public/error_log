@@ -1,0 +1,32 @@
+[10-May-2023 13:30:31 UTC] PHP Warning:  require(/home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/index.php on line 34
+[10-May-2023 13:30:31 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php80/root/usr/share/pear') in /home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/index.php:34
+Stack trace:
+#0 {main}
+  thrown in /home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/index.php on line 34
+[10-May-2023 13:31:18 UTC] PHP Warning:  require(/home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/index.php on line 34
+[10-May-2023 13:31:18 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php80/root/usr/share/pear') in /home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/index.php:34
+Stack trace:
+#0 {main}
+  thrown in /home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/index.php on line 34
+[10-May-2023 13:32:08 UTC] PHP Warning:  require(/home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/index.php on line 34
+[10-May-2023 13:32:08 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php80/root/usr/share/pear') in /home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/index.php:34
+Stack trace:
+#0 {main}
+  thrown in /home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/index.php on line 34
+[10-May-2023 13:32:16 UTC] PHP Warning:  require(/home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/index.php on line 34
+[10-May-2023 13:32:16 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php80/root/usr/share/pear') in /home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/index.php:34
+Stack trace:
+#0 {main}
+  thrown in /home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/index.php on line 34
+[10-May-2023 13:32:37 UTC] PHP Warning:  require(/home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/index.php on line 34
+[10-May-2023 13:32:37 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php80/root/usr/share/pear') in /home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/index.php:34
+Stack trace:
+#0 {main}
+  thrown in /home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/index.php on line 34
+[10-May-2023 13:33:39 UTC] PHP Warning:  require(/home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/index.php on line 34
+[10-May-2023 13:33:39 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php80/root/usr/share/pear') in /home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/index.php:34
+Stack trace:
+#0 {main}
+  thrown in /home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/index.php on line 34
+[10-May-2023 13:34:59 UTC] PHP Warning:  require(/home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/../vendor/autoload.php): failed to open stream: No such file or directory in /home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/index.php on line 34
+[10-May-2023 13:34:59 UTC] PHP Fatal error:  require(): Failed opening required '/home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/../vendor/autoload.php' (include_path='.:/opt/alt/php74/usr/share/pear') in /home/phoenixt/tarjetajovenapi.phoenixtechsa.com/public/index.php on line 34
