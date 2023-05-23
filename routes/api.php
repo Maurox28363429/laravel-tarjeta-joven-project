@@ -61,7 +61,9 @@ Route::get('/export_payment_excel', 'App\Http\Controllers\PaymentMenbresiaContro
 Route::put('payment-membresia/{id}',"App\Http\Controllers\PaymentMenbresiaController@update");
 Route::post('payment-membresia',"App\Http\Controllers\PaymentMenbresiaController@store");
 Route::post('prueba-membresia',"App\Http\Controllers\PaymentMenbresiaController@regalia");
+
 Route::post("payment-membresia/changes/{id}","App\Http\Controllers\PaymentMenbresiaController@changes");
+Route::get("verificar_pago/{id}","App\Http\Controllers\PaymentMenbresiaController@verificar");
 
 Route::delete('payment-membresia/{id}',"App\Http\Controllers\PaymentMenbresiaController@delete");
 

@@ -17,6 +17,7 @@ use YappyCheckout;
         PaymentMembresiaExport
     };
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Redirect;
 class PaymentMenbresiaController extends Controller
 {
     use HelpersTrait;
@@ -178,6 +179,14 @@ class PaymentMenbresiaController extends Controller
             Models::where("id",$id)->limit(1),
             $datos
         );
+    }
+    public function verificar($id){
+        $payment_menbresia=Models::where("id",$id)->update(['verificado'=>1]);
+        $envio=$this->sendMail("maur28363429rd@gmail.com",31825119,[
+            "order_id" => $id,
+        ]);
+        $externalUrl = 'https://app.tarjetajovendiamante.com/';
+        return Redirect::to($externalUrl);
     }
     public function delete($id,Request $request){
         return $this->HelpDelete(
