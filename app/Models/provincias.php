@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\{
-    ofertas_comercio
+    ofertas_comercio,
+    Universidades
 };
 class provincias extends Model
 {
@@ -13,10 +14,16 @@ class provincias extends Model
     protected $fillable=[
         'name'
     ];
-    protected $appends = ['ofertas'];
+    protected $appends = ['ofertas','universidades'];
     public function getOfertasAttribute() {
         $dir=$this->attributes['name'];
         $query=ofertas_comercio::query();
+        $query->whereJsonContains('link_map', ['ubication' => $dir]);
+        return $query->count();
+    } 
+    function getUniversidadesAttribute() {
+        $dir=$this->attributes['name'];
+        $query=Universidades::query();
         $query->whereJsonContains('link_map', ['ubication' => $dir]);
         return $query->count();
     }
