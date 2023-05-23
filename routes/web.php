@@ -25,7 +25,10 @@ Route::get('/pagosbg.php', function(Request $request){
 function validateHash()
 {
     try {
-        include 'env.php'; // IMPORTAR ARCHIVO DE ENV PARA UTILIZAR LA VARIABLE 'CLAVE_SECRETA'
+	$ID_DEL_COMERCIO="0932fb2c-4bc6-4568-9d34-b49d69f4dd53";
+	$CLAVE_SECRETA="QkdfbUJxdXkzNklFcWd2ZnpBMWJJTU4uaWZRdjlvTGRQdE9OeUt0N1E3Y3prOGliRVlKcG5Bb2FodkxKaTlIMg==";
+	$MODO_DE_PRUEBAS=true;
+	$YAPPY_PLUGIN_VERSION="P1.0.0";
         $orderId = $_GET['orderId'];
         $status = $_GET['status'];
         $hash = $_GET['hash'];

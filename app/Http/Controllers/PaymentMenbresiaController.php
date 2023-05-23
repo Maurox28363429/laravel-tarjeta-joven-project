@@ -85,6 +85,9 @@ class PaymentMenbresiaController extends Controller
                 if(!$membresia){
                     throw new \Exception('El usuario no tiene membresia',404);
                 }
+                if($membresia->status=="activa" && $membresia->type=='Comprada'){
+                    throw new \Exception('El usuario ya tiene una membresia vigente',404);
+                }
                 if($request->has('img')){
                     $date = Carbon::now();
                     $text = $date->format('Y_m_d');

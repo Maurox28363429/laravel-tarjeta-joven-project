@@ -73,7 +73,11 @@ class User extends Authenticatable implements JWTSubject
     }
     public function getImgUrlAttribute($value){
         if($value==null || $value==''){
-            return "https://www.pngkit.com/png/detail/115-1150342_user-avatar-icon-iconos-de-mujeres-a-color.png";
+            if($this->attributes['sex']==1){
+                return env('APP_URL')."assets/img/hombre.png";
+            }else{
+                return env('APP_URL')."assets/img/mujer.png";
+            }
         }else{
             return $value;
         }
@@ -84,5 +88,4 @@ class User extends Authenticatable implements JWTSubject
     public function getProvinciaAttribute($value){
         return json_decode($value);
     }
-    
 }
