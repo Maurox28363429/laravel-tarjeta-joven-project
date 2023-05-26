@@ -163,6 +163,13 @@ class UserController extends Controller
                     $path = $image->store('public/images/users/'.$text."/");
                     $data["beneficiario_poliza_cedula"]=env('APP_URL').Storage::url($path);
                 }
+                if($request->hasFile('dni')){
+                    $date = Carbon::now();
+                    $text = $date->format('Y_m_d');
+                    $image = $request->file('dni');
+                    $path = $image->store('public/images/users/'.$text."/");
+                    $data["dni"]=env('APP_URL').Storage::url($path);
+                }
                 $user->update($data);
             DB::commit();
             return response()->json([

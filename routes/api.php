@@ -116,3 +116,10 @@ Route::get('noticias_pachama/{id}',"App\Http\Controllers\NoticiasPachamaControll
 Route::post('noticias_pachama/{id}',"App\Http\Controllers\NoticiasPachamaController@update");
 Route::post('noticias_pachama',"App\Http\Controllers\NoticiasPachamaController@store");
 Route::delete('noticias_pachama/{id}',"App\Http\Controllers\NoticiasPachamaController@delete");
+
+//Formulario2
+Route::get('formulario2',"App\Http\Controllers\FormularioController@index");
+Route::get('formulario2/{id}',"App\Http\Controllers\FormularioController@show");
+Route::put('formulario2/{id}',"App\Http\Controllers\FormularioController@update");
+Route::post('formulario2',"App\Http\Controllers\FormularioController@store");
+Route::delete('formulario2/{id}',"App\Http\Controllers\FormularioController@delete");
