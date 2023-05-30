@@ -28,13 +28,13 @@ class UsersClientExport implements FromCollection,WithHeadings
                 })
                 ->get()
                 ->map(function($form){
-
                 $date = Carbon::createFromFormat('Y-m-d H:i:s',$form->created_at)->format('d/m/Y H:i:s');
                 $fecha_nacimiento= new Carbon($form->fecha_nacimiento);
                 $fecha_nacimiento = $fecha_nacimiento->format('d/m/Y');
                 return [
                     "#"=>$form->id ?? "No disponible",
                     "Nombre"=>$form->name." ".$form->last_name ?? "No disponible",
+                    "DNI_text"=>$form->dni_text ?? "No disponible",
                     "Email"=>$form->email ?? "No disponible",
                     "Telefono"=>$form->phone ?? "No disponible",
                     "membresia"=>$form->membresia->type ?? "No disponible",
@@ -61,6 +61,7 @@ class UsersClientExport implements FromCollection,WithHeadings
                 return [
                     "#"=>$form->id ?? "No disponible",
                     "Nombre"=>$form->name." ".$form->last_name ?? "No disponible",
+                    "DNI Text"=>$form->dni_text ?? "No disponible",
                     "Email"=>$form->email ?? "No disponible",
                     "Telefono"=>$form->phone ?? "No disponible",
                     "membresia"=>$form->membresia->type ?? "No disponible",
@@ -86,6 +87,7 @@ class UsersClientExport implements FromCollection,WithHeadings
             return [
                 "#",
                 "Nombre",
+                "DNI text",
                 "Email",
                 "Telefono",
                 "Membresia",
@@ -102,6 +104,7 @@ class UsersClientExport implements FromCollection,WithHeadings
             return [
                 "#",
                 "Nombre",
+                "DNI text",
                 "Email",
                 "Telefono",
                 "Membresia",
@@ -114,5 +117,6 @@ class UsersClientExport implements FromCollection,WithHeadings
                 "Emicion" 
             ];
         }
+
     }
 }

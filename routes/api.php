@@ -17,6 +17,37 @@ use Illuminate\Support\Facades\DB;
 //borrar
 //Route::get('example', 'App\Http\Controllers\UserController@example');
 //auth
+Route::post("woocommerce",function(Request $request){
+    $filename = 'archivo.txt';
+    $data="\n".json_encode(
+        $request->all()
+    );
+    if (!file_exists($filename)) {
+        // si el archivo no existe, crearlo con el contenido "Iniciando archivo"
+        file_put_contents($filename,$data);
+    } else {
+        // si el archivo existe, agregar "nuevo contenido" al final del archivo
+        $contenido_actual = file_get_contents($filename);
+        file_put_contents($filename, $contenido_actual . $data);
+    }
+
+});
+Route::get("woocommerce",function(Request $request){
+    $filename = 'archivo.txt';
+    $data="\n".json_encode(
+        $request->all()
+    );
+    if (!file_exists($filename)) {
+        // si el archivo no existe, crearlo con el contenido "Iniciando archivo"
+        file_put_contents($filename,$data);
+    } else {
+        // si el archivo existe, agregar "nuevo contenido" al final del archivo
+        $contenido_actual = file_get_contents($filename);
+        file_put_contents($filename, $contenido_actual . $data);
+    }
+
+});
+
 Route::post('register', 'App\Http\Controllers\UserController@register');
 Route::post('login', 'App\Http\Controllers\UserController@authenticate');
 
