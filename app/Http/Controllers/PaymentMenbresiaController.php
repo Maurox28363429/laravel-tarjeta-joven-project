@@ -117,6 +117,20 @@ class PaymentMenbresiaController extends Controller
             return $this->HelpError($e);
         }
     }
+    public function forzar($id){
+        $user=User::query()->where('id',$id)->first();
+        $membresia=membresia::query()->where('user_id',$user->id)->first();
+        $nowTimeDate = new Carbon($membresia->fecha_cobro);
+        $newTime = $nowTimeDate->addYear();
+        $membresia->update([
+            'fecha_cobro'=>$newTime,
+            'type'=>"Comprada",
+            'membresia_id'=>6
+        ]);
+        return response()->json([
+            'status'=>200
+        ],200);
+    }
      public function regalia(Request $request){
         try {
             DB::beginTransaction();

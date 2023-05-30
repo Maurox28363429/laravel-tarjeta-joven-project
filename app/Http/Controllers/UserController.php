@@ -24,6 +24,26 @@ class UserController extends Controller
     public function example(){
         return 10;
     }
+    public function export_membresia(Request $request){
+        $date = \Carbon\Carbon::now();
+        $dayWithHyphen = $date->format('d_m_Y');
+        $paremetro=$request->all();
+        $data['membresia']=true;
+        return Excel::download(new UsersClientExport($paremetro), 'Users_membresia_report'.$dayWithHyphen.'.xlsx');
+    }
+    public function export_pdf_membresia(){
+          $user=User::query()
+            ->with(['membresia'])
+            ->where('role_id',3)
+            ->whereHas('membresia',function($q){
+                $q->where('type',"Comprada")->whereDate('fecha_cobro','>',Carbon::now());
+            })->get();
+          $customPaper = array(0, 0, 1920, 720);
+          $pdf = \PDF::loadView('user_membresia', [
+            'user'=>$user
+          ])->setPaper($customPaper, 'landscape');
+          return $pdf->download('user_membresia.pdf');
+    }
     public function export_users_excel(Request $request){
         $date = \Carbon\Carbon::now();
         $dayWithHyphen = $date->format('d_m_Y');
@@ -206,10 +226,14 @@ class UserController extends Controller
         );
     }
     public function delete($id,Request $request){
-        return $this->HelpDelete(
-            User::where("id",$id)->limit(1),
-            $request->all()
-        );
+        $user=User::query()->where('id',$id)->first();
+        $membresia=membresia::query()->where('user_id',$user->id)->first();
+
+        $membresia->delete();
+        $user->delete();
+        return response()->json([
+            'status'=>200
+        ],200);
     }
     public function authenticate(Request $request)
     {
