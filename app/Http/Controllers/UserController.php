@@ -9,6 +9,7 @@ namespace App\Http\Controllers;
     use App\Exports\{
         UsersClientExport
     };
+    use App\Imports\UserPaymentMembresiaAllImport;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Hash;
     use Illuminate\Support\Facades\Validator;
@@ -23,6 +24,11 @@ class UserController extends Controller
     use HelpersTrait;
     public function example(){
         return 10;
+    }
+    public function importUserMembresia(Request $request){
+        $file=$request->file('excel');
+        Excel::import(new UserPaymentMembresiaAllImport, $file);
+        return ['message'=>'existoso'];
     }
     public function export_membresia(Request $request){
         $date = \Carbon\Carbon::now();

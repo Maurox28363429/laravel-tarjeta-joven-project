@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 //borrar
 //Route::get('example', 'App\Http\Controllers\UserController@example');
 //auth
+
 Route::post("woocommerce",function(Request $request){
     $filename = 'archivo.txt';
     $data="\n".json_encode(
@@ -47,6 +48,8 @@ Route::get("woocommerce",function(Request $request){
     }
 
 });
+
+Route::post('importUserMembresia', 'App\Http\Controllers\UserController@importUserMembresia');
 
 Route::post('register', 'App\Http\Controllers\UserController@register');
 Route::post('login', 'App\Http\Controllers\UserController@authenticate');
