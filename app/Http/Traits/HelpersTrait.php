@@ -5,6 +5,8 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Postmark\PostmarkClient;
+use Illuminate\Support\Facades\Http;
+
 trait HelpersTrait {
     protected function subirArchivo($file, $title = 'file',$prefix='user-files'){
         /* Como se implementa
@@ -25,6 +27,15 @@ trait HelpersTrait {
             return "Error";
         }
     }//end subir archivo
+    public function mensaje_realtime($titulo,$type,$id_post){
+        $response = Http::post('https://pocketbase.real.phoenixtechsa.com/api/collections/tarjetajoven_mensajes/records', [
+            'titulo' => $titulo,
+            'type' => $type,
+            'id_post' => $id_post
+        ]);
+        
+        return $response->json();
+    }
     protected function sendMail($email,$plantilla,$data)
     {
         $client = new PostmarkClient("0406f231-9899-47d3-a951-f20006e66c25");

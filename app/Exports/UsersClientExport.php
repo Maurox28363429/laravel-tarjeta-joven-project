@@ -6,6 +6,7 @@ use App\Models\User;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 class UsersClientExport implements FromCollection,WithHeadings
 {
 
@@ -35,16 +36,20 @@ class UsersClientExport implements FromCollection,WithHeadings
                     "#"=>$form->id ?? "No disponible",
                     "Nombre"=>$form->name." ".$form->last_name ?? "No disponible",
                     "DNI_text"=>$form->dni_text ?? "No disponible",
-                    "Email"=>$form->email ?? "No disponible",
-                    "Telefono"=>$form->phone ?? "No disponible",
-                    "membresia"=>$form->membresia->type ?? "No disponible",
-                    "Vencimiento_membresia"=>$form->membresia->fecha_cobro,
-                    "sexo"=>$form->sex ?? "No disponible",
-                    "direccion"=>$form->address ?? "No disponible",
-                    "dni"=>$form->dni ?? "No disponible",
                     "fecha_nacimiento"=>$fecha_nacimiento ?? "No disponible",
+                    
+                    "Email"=>$form->email ?? "No disponible",
                     "beneficiario_poliza_name"=>$form->beneficiario_poliza_name ?? "No disponible",
                     "beneficiario_poliza_cedula"=>$form->beneficiario_poliza_cedula ?? "No disponible",
+                    
+                    //"Telefono"=>$form->phone ?? "No disponible",
+                    //"membresia"=>$form->membresia->type ?? "No disponible",
+                    //"Vencimiento_membresia"=>$form->membresia->fecha_cobro,
+                    //"sexo"=>$form->sex ?? "No disponible",
+                    //"direccion"=>$form->address ?? "No disponible",
+                    //"dni"=>$form->dni ?? "No disponible",
+                    
+                    "dni"=>($form->dni!=null)? "SI":"NO",
                     "EMITIDO"=>$date ?? "No disponible",
                 ];
             });
@@ -62,16 +67,20 @@ class UsersClientExport implements FromCollection,WithHeadings
                     "#"=>$form->id ?? "No disponible",
                     "Nombre"=>$form->name." ".$form->last_name ?? "No disponible",
                     "DNI Text"=>$form->dni_text ?? "No disponible",
-                    "Email"=>$form->email ?? "No disponible",
-                    "Telefono"=>$form->phone ?? "No disponible",
-                    "membresia"=>$form->membresia->type ?? "No disponible",
-                    "sexo"=>$form->sex ?? "No disponible",
-                    "direccion"=>$form->address ?? "No disponible",
-                    "dni"=>$form->dni ?? "No disponible",
                     "fecha_nacimiento"=>$fecha_nacimiento ?? "No disponible",
+                    
+                    "Email"=>$form->email ?? "No disponible",
                     "beneficiario_poliza_name"=>$form->beneficiario_poliza_name ?? "No disponible",
                     "beneficiario_poliza_cedula"=>$form->beneficiario_poliza_cedula ?? "No disponible",
-                    "EMITIDO"=>$date ?? "No disponible",
+                    
+                    //"Telefono"=>$form->phone ?? "No disponible",
+                    //"membresia"=>$form->membresia->type ?? "No disponible",
+                    //"sexo"=>$form->sex ?? "No disponible",
+                    //"direccion"=>$form->address ?? "No disponible",
+                    //"dni"=>$form->dni ?? "No disponible",
+                    
+                    "dni"=>($form->dni!=null)? "SI":"NO",
+                    "FECHA"=>$date ?? "No disponible",
                 ];
             });
         }
@@ -85,36 +94,39 @@ class UsersClientExport implements FromCollection,WithHeadings
         $param=$this->parametros;
         if(isset($param['membresia']) && $param['membresia']==true){
             return [
-                "#",
-                "Nombre",
-                "DNI text",
-                "Email",
-                "Telefono",
-                "Membresia",
-                "Vencimiento_membresia",
-                "Sexo",
-                "Direccion",
+                "CONSECUTIVO",
+                "NOMBRE",
                 "DNI",
-                "Fecha de nacimiento",
-                "beneficiario nombre",
-                "beneficiario DNI",
-                "Emicion" 
+                "FECHA NACIMIENTO",
+                "MAIL",
+                "NOMBRE BENEFICIARIO",
+                "DNI BENEFICIARIO",
+                //"Telefono",
+                //"Membresia",
+                //"Vencimiento_membresia",
+                //"Sexo",
+                //"Direccion",
+                //"DNI",
+                "FOTO DNI",
+            
+                "FECHA" 
             ];
         }else{
             return [
-                "#",
-                "Nombre",
-                "DNI text",
-                "Email",
-                "Telefono",
-                "Membresia",
-                "Sexo",
-                "Direccion",
+                "CONSECUTIVO",
+                "NOMBRE",
                 "DNI",
-                "Fecha de nacimiento",
-                "beneficiario nombre",
-                "beneficiario DNI",
-                "Emicion" 
+                "FECHA NACIMIENTO",
+                "MAIL",
+                "NOMBRE BENEFICIARIO",
+                "DNI BENEFICIARIO",
+                //"Telefono",
+                //"Membresia",
+                //"Sexo",
+                //"Direccion",
+                //"DNI",
+                "FOTO DNI",
+                "FECHA" 
             ];
         }
 

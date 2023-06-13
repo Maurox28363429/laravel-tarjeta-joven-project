@@ -7,6 +7,7 @@ use App\Models\{
     ofertas_comercio as Models
 };
 use App\Http\Traits\HelpersTrait;
+use Illuminate\Support\Facades\DB;
 class OfertasComercioController extends Controller
 {
     use HelpersTrait;
@@ -58,10 +59,25 @@ class OfertasComercioController extends Controller
     }
     public function store(Request $request){
         $data=$request->all();
-        return $this->HelpStore(
-            Models::query(),
-            $data
-        );
+        $query=Models::query();
+        try {
+            DB::beginTransaction();
+                $process=$query->create($data);
+            DB::commit();
+            $this->mensaje_realtime(
+                'Se añadio una nueva oferta',
+                'ofertas',
+                $process->id
+            );
+            return [
+                "message"=>"Datos creados",
+                "status"=>200,
+                "data"=>$process
+            ];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->HelpError($e);
+        }
     }
     public function update($id,Request $request){
         return $this->HelpUpdate(

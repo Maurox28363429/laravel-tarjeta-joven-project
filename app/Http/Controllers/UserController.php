@@ -31,6 +31,15 @@ class UserController extends Controller
         return ['message'=>'existoso'];
     }
     public function export_membresia(Request $request){
+        DB::statement("
+	    	ALTER TABLE users DROP id;
+	    ");
+	    DB::statement("
+	    	ALTER TABLE users AUTO_INCREMENT = 1;
+	    ");
+	    DB::statement("
+	    	ALTER TABLE users ADD id int NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;
+	    ");
         $date = \Carbon\Carbon::now();
         $dayWithHyphen = $date->format('d_m_Y');
         $paremetro=$request->all();
@@ -187,7 +196,7 @@ class UserController extends Controller
                     $text = $date->format('Y_m_d');
                     $image = $request->file('dni');
                     $path = $image->store('public/images/users/'.$text."/");
-                    $data["dni"]=env('APP_URL').Storage::url($path);
+                    $data["dni"]=env('APP_URL').''.Storage::url($path);
                 }
                 if($request->hasFile('beneficiario_poliza_cedula')){
                     $date = Carbon::now();

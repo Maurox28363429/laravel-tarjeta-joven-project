@@ -43,6 +43,7 @@ class NoticiasController extends Controller
     }
     public function store(Request $request){
         try {
+            
             $response=[];
             DB::beginTransaction();
                 $data=$request->all();
