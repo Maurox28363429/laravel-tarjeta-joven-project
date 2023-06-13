@@ -337,20 +337,20 @@ class UserController extends Controller
                     ]);
                 }
                 //enviar correo si es valido 0406f231-9899-47d3-a951-f20006e66c25
-                try {
-                    $enviado=$this->sendMail($user->email,31306527,[
-                        "user_name"=>$request->input("name")." ".$request->input("last_name")
-                    ]);
-                    if($enviado->message!="OK"){
-                        throw new \Exception("Error", 404);
+                // try {
+                //     $enviado=$this->sendMail($user->email,31306527,[
+                //         "user_name"=>$request->input("name")." ".$request->input("last_name")
+                //     ]);
+                //     if($enviado->message!="OK"){
+                //         throw new \Exception("Error", 404);
                         
-                    }
-                } catch (\Exception $e) {
-                    return $e;
-                    return response()->json([
-                       "message"=>"Por favor, colocar un correo real"
-                    ],404);
-                }
+                //     }
+                // } catch (\Exception $e) {
+                //     return $e;
+                //     return response()->json([
+                //        "message"=>"Por favor, colocar un correo real"
+                //     ],404);
+                // }
             DB::commit();
                 return response()->json([
                     'user'=>User::where('id',$user->id)->with(['membresia'])->first(),

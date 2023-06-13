@@ -27,6 +27,7 @@ trait HelpersTrait {
     }//end subir archivo
     protected function sendMail($email,$plantilla,$data)
     {
+        return true;
         $client = new PostmarkClient("0406f231-9899-47d3-a951-f20006e66c25");
         // Send an email:
         return $sendResult = $client->sendEmailWithTemplate(

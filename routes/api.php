@@ -103,6 +103,8 @@ Route::post('payment-membresia',"App\Http\Controllers\PaymentMenbresiaController
 
 Route::get('payment-membresia/forzar/{id}',"App\Http\Controllers\PaymentMenbresiaController@forzar");
 
+Route::get('payment-membresia/forzar_email/{id}',"App\Http\Controllers\PaymentMenbresiaController@wordpress_email_forzar");
+
 Route::post('prueba-membresia',"App\Http\Controllers\PaymentMenbresiaController@regalia");
 
 Route::post("payment-membresia/changes/{id}","App\Http\Controllers\PaymentMenbresiaController@changes");

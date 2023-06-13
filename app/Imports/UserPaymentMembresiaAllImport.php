@@ -19,7 +19,7 @@ class UserPaymentMembresiaAllImport implements ToModel,WithHeadingRow
     */
     public function model(array $row)
     {
-        try{
+        //try{
             $user=User::create([
                 "name"=>$row['nombre'],
                 "last_name"=>$row['apellido'],
@@ -28,16 +28,16 @@ class UserPaymentMembresiaAllImport implements ToModel,WithHeadingRow
                 "phone"=>$row['telefono'],
                 "sex"=>$row['sexo'],
                 "address"=>$row['direccion'],
-                "dni_text"=>$row['cedula'],
+                "dni_text"=>$row['cedula'] ?? null,
                 "vendedor"=>$row['promotor'] ?? 'Importacion',
                 "password"=>bcrypt($row["password"] ?? "12345"),
                 "role_id"=>3,
                 "beneficiario_poliza_name"=>$row['nombre_beneficario'],
                 "beneficiario_poliza_cedula"=>$row['cedula_beneficario']
             ]);
-        }catch(\Exception $e){
-            return User::where('email',$row['correo'])->first();
-        }
+       // }catch(\Exception $e){
+       //     return User::where('email',$row['correo'])->first();
+       // }
         $nowTimeDate = Carbon::now()->addYear();
         $membresia= membresia::create([
             'user_id'=>$user->id,

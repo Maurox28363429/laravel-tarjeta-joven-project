@@ -131,6 +131,30 @@ class PaymentMenbresiaController extends Controller
             'status'=>200
         ],200);
     }
+    public function wordpress_email_forzar($id){
+        $user=User::query()->where('email',$id)->first();
+        if(!$user){
+            $externalUrl = 'https://app.tarjetajovendiamante.com/';
+            return Redirect::to($externalUrl);
+        }
+        $membresia=membresia::query()->where('user_id',$user->id)->first();
+        $nowTimeDate = new Carbon($membresia->fecha_cobro);
+        $newTime = $nowTimeDate->addYear();
+        $membresia->update([
+            'fecha_cobro'=>$newTime,
+            'type'=>"Comprada",
+            'membresia_id'=>6
+        ]);
+        Models::create([
+            "payment"=>9.99,
+            "user_id"=>$user->id,
+            "referencia"=>"Wordpress payment",
+            "verificado"=>1,
+            "membresia_id"=>6,
+        ]);
+        $externalUrl = 'https://app.tarjetajovendiamante.com/';
+        return Redirect::to($externalUrl);
+    } 
      public function regalia(Request $request){
         try {
             DB::beginTransaction();
@@ -163,6 +187,7 @@ class PaymentMenbresiaController extends Controller
             );
         }
     }
+
     public function update($id,Request $request){
         return $this->HelpUpdate(
             Models::where("id",$id)->limit(1),
