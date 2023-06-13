@@ -28,12 +28,13 @@ class UsersClientExport implements FromCollection,WithHeadings
                     $q->where('type',"Comprada")->whereDate('fecha_cobro','>',Carbon::now());
                 })
                 ->get()
-                ->map(function($form){
+                ->map(function($form,$index){
                 $date = Carbon::createFromFormat('Y-m-d H:i:s',$form->created_at)->format('d/m/Y H:i:s');
                 $fecha_nacimiento= new Carbon($form->fecha_nacimiento);
                 $fecha_nacimiento = $fecha_nacimiento->format('d/m/Y');
+                $index++;
                 return [
-                    "#"=>$form->id ?? "No disponible",
+                    "#"=>sprintf('%05d',$index),
                     "Nombre"=>$form->name." ".$form->last_name ?? "No disponible",
                     "DNI_text"=>$form->dni_text ?? "No disponible",
                     "fecha_nacimiento"=>$fecha_nacimiento ?? "No disponible",
@@ -48,9 +49,9 @@ class UsersClientExport implements FromCollection,WithHeadings
                     //"sexo"=>$form->sex ?? "No disponible",
                     //"direccion"=>$form->address ?? "No disponible",
                     //"dni"=>$form->dni ?? "No disponible",
-                    
-                    "dni"=>($form->dni!=null)? "SI":"NO",
                     "EMITIDO"=>$date ?? "No disponible",
+                    "dni"=>($form->dni!=null)? "SI":"NO",
+
                 ];
             });
         }else{
@@ -58,13 +59,14 @@ class UsersClientExport implements FromCollection,WithHeadings
                 ->with(['membresia'])
                 ->where('role_id',3)
                 ->get()
-                ->map(function($form){
+                ->map(function($form,$index){
 
                 $date = Carbon::createFromFormat('Y-m-d H:i:s',$form->created_at)->format('d/m/Y H:i:s');
                 $fecha_nacimiento= new Carbon($form->fecha_nacimiento);
                 $fecha_nacimiento = $fecha_nacimiento->format('d/m/Y');
+                $index++;
                 return [
-                    "#"=>$form->id ?? "No disponible",
+                    "#"=>sprintf('%05d',$index),
                     "Nombre"=>$form->name." ".$form->last_name ?? "No disponible",
                     "DNI Text"=>$form->dni_text ?? "No disponible",
                     "fecha_nacimiento"=>$fecha_nacimiento ?? "No disponible",
@@ -78,9 +80,9 @@ class UsersClientExport implements FromCollection,WithHeadings
                     //"sexo"=>$form->sex ?? "No disponible",
                     //"direccion"=>$form->address ?? "No disponible",
                     //"dni"=>$form->dni ?? "No disponible",
-                    
-                    "dni"=>($form->dni!=null)? "SI":"NO",
                     "FECHA"=>$date ?? "No disponible",
+                    "dni"=>($form->dni!=null)? "SI":"NO",
+
                 ];
             });
         }
@@ -107,9 +109,10 @@ class UsersClientExport implements FromCollection,WithHeadings
                 //"Sexo",
                 //"Direccion",
                 //"DNI",
-                "FOTO DNI",
+                "FECHA" ,
+                "FOTO DNI"
             
-                "FECHA" 
+
             ];
         }else{
             return [
@@ -125,8 +128,8 @@ class UsersClientExport implements FromCollection,WithHeadings
                 //"Sexo",
                 //"Direccion",
                 //"DNI",
-                "FOTO DNI",
-                "FECHA" 
+                "FECHA",
+                "FOTO DNI"
             ];
         }
 

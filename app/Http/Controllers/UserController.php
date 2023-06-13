@@ -31,15 +31,6 @@ class UserController extends Controller
         return ['message'=>'existoso'];
     }
     public function export_membresia(Request $request){
-        DB::statement("
-	    	ALTER TABLE users DROP id;
-	    ");
-	    DB::statement("
-	    	ALTER TABLE users AUTO_INCREMENT = 1;
-	    ");
-	    DB::statement("
-	    	ALTER TABLE users ADD id int NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST;
-	    ");
         $date = \Carbon\Carbon::now();
         $dayWithHyphen = $date->format('d_m_Y');
         $paremetro=$request->all();
