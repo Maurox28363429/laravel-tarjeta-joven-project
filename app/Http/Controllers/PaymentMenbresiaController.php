@@ -127,6 +127,8 @@ class PaymentMenbresiaController extends Controller
             'type'=>"Comprada",
             'membresia_id'=>6
         ]);
+        $externalUrl = 'https://app.tarjetajovendiamante.com/';
+        return Redirect::to($externalUrl);
         return response()->json([
             'status'=>200
         ],200);

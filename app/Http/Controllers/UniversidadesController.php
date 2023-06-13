@@ -7,7 +7,7 @@ use App\Models\{
     Universidades as Models
 };
 use App\Http\Traits\HelpersTrait;
-
+use Illuminate\Support\Facades\DB;
 class UniversidadesController extends Controller
 {
     use HelpersTrait;
@@ -46,11 +46,26 @@ class UniversidadesController extends Controller
     }
     public function store(Request $request){
         
-        $data=$request->all();
-        return $this->HelpStore(
-            Models::query(),
-            $data
-        );
+        $data=$request->all(); 
+        $query=Models::query();
+        try {
+            DB::beginTransaction();
+                $process=$query->create($data);
+            DB::commit();
+            $this->mensaje_realtime(
+                'Una nueva universidad fue agregada',
+                'universidad',
+                $process->id
+            );
+            return [
+                "message"=>"Datos creados",
+                "status"=>200,
+                "data"=>$process
+            ];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->HelpError($e);
+        }
     }
     public function update($id,Request $request){
         return $this->HelpUpdate(

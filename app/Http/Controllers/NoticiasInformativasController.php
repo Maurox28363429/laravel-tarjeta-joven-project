@@ -34,10 +34,24 @@ class NoticiasInformativasController extends Controller
             $path = $image->store('public/images/noticiasinformativas/'.$text."/");
             $data['img_url']=env('APP_URL').Storage::url($path);
         }
-        return $this->HelpStore(
-            $query,
-            $data
-        );
+        try {
+            DB::beginTransaction();
+                $process=$query->create($data);
+            DB::commit();
+            $this->mensaje_realtime(
+                'Una nueva noticia fue agregada',
+                'noticias',
+                $process->id
+            );
+            return [
+                "message"=>"Datos creados",
+                "status"=>200,
+                "data"=>$process
+            ];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->HelpError($e);
+        }
     }//store
     public function show($id,Request $request){
         $query=Model::query()->where('id',$id);
