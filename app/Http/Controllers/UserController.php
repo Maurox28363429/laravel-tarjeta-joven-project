@@ -234,8 +234,9 @@ class UserController extends Controller
     public function delete($id,Request $request){
         $user=User::query()->where('id',$id)->first();
         $membresia=membresia::query()->where('user_id',$user->id)->first();
-
-        $membresia->delete();
+        if($membresia){
+            $membresia->delete();
+        }
         $user->delete();
         return response()->json([
             'status'=>200
