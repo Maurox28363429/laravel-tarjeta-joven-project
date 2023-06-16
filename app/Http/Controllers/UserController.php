@@ -7,7 +7,8 @@ namespace App\Http\Controllers;
     };
     use Maatwebsite\Excel\Facades\Excel;
     use App\Exports\{
-        UsersClientExport
+        UsersClientExport,
+        ExportUser
     };
     use App\Imports\UserPaymentMembresiaAllImport;
     use Illuminate\Http\Request;
@@ -56,6 +57,13 @@ class UserController extends Controller
         $paremetro=$request->all();
         return Excel::download(new UsersClientExport($paremetro), 'Users_clientes_report'.$dayWithHyphen.'.xlsx');
     }//end
+    public function export_vendedor_users_excel(Request $request){
+        
+        $date = \Carbon\Carbon::now();
+        $dayWithHyphen = $date->format('d_m_Y');
+        $paremetro=$request->all();
+        return Excel::download(new ExportUser($paremetro), 'Users_email_report'.$dayWithHyphen.'.xlsx');
+    }
     public function getRecovery(Request $request){
         try {
             $email=$request->input('email') ?? null;
@@ -132,6 +140,26 @@ class UserController extends Controller
     }
     public function index(Request $request){
         $query=User::query();
+        $vendedor=$request->input('vendedor') ?? null;
+        $init_date = $request->input('init_date') ?? null;
+        if($init_date){
+            $query->whereDate('created_at', '>=', $init_date);
+        }
+        $end_date = $request->input('end_date') ?? null;
+        if($end_date){
+            $query->whereDate('created_at', '<=', $end_date);
+        }
+        if($vendedor){
+            return $query
+                    ->select('vendedor','id', DB::raw('count(*) as total'))
+                    ->with(['membresia'])
+                    ->whereNotNull('vendedor')
+                    ->where('role_id',3)
+                    ->whereHas('membresia',function($q){
+                        $q->where('type',"Comprada");
+                    })
+                    ->groupBy('vendedor')->get();
+        }
         $rol=$request->input('rol') ?? null;
         $name=$request->input('name') ?? null;
         $active=$request->input('active') ?? null;

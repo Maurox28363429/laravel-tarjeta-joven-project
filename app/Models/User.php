@@ -37,7 +37,9 @@ class User extends Authenticatable implements JWTSubject
         "beneficiario_poliza_cedula",
         "vendedor",
         "provincia",
-        "dni_text"
+        "dni_text",
+        "parentesco",
+        "seguro_active"
     ];
 
     /**

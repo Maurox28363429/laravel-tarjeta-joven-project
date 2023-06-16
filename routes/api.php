@@ -72,6 +72,8 @@ Route::delete('user/{id}', 'App\Http\Controllers\UserController@delete');
 
 Route::get('/export_form2_excel', 'App\Http\Controllers\FormularioController@export_form2_excel');
 Route::get('/export_users_excel', 'App\Http\Controllers\UserController@export_users_excel');
+
+Route::get('/export_vendedor_users_excel', 'App\Http\Controllers\UserController@export_vendedor_users_excel');
 //clientes
 
 //Roles
@@ -94,12 +96,27 @@ Route::put('price-membresia/{id}',"App\Http\Controllers\PriceMembresiaController
 Route::post('price-membresia',"App\Http\Controllers\PriceMembresiaController@store");
 Route::delete('price-membresia/{id}',"App\Http\Controllers\PriceMembresiaController@delete");
 
+//SOS
+Route::get('sos',"App\Http\Controllers\SosController@index");
+Route::get('sos/{id}',"App\Http\Controllers\SosController@show");
+Route::put('sos/{id}',"App\Http\Controllers\SosController@update");
+Route::post('sos',"App\Http\Controllers\SosController@store");
+Route::delete('sos/{id}',"App\Http\Controllers\SosController@delete");
+
+//Concurso
+Route::get('concurso',"App\Http\Controllers\ConcursoController@index");
+Route::get('concurso/{id}',"App\Http\Controllers\ConcursoController@show");
+Route::put('concurso/{id}',"App\Http\Controllers\ConcursoController@update");
+Route::post('concurso',"App\Http\Controllers\ConcursoController@store");
+Route::delete('concurso/{id}',"App\Http\Controllers\ConcursoController@delete");
+
 //PaymentMembresia
 Route::get('payment-membresia',"App\Http\Controllers\PaymentMenbresiaController@index");
 Route::get('payment-membresia/{id}',"App\Http\Controllers\PaymentMenbresiaController@show");
 Route::get('/export_payment_excel', 'App\Http\Controllers\PaymentMenbresiaController@exportar_excel');
 Route::put('payment-membresia/{id}',"App\Http\Controllers\PaymentMenbresiaController@update");
 Route::post('payment-membresia',"App\Http\Controllers\PaymentMenbresiaController@store");
+
 
 Route::get('payment-membresia/forzar/{id}',"App\Http\Controllers\PaymentMenbresiaController@forzar");
 
