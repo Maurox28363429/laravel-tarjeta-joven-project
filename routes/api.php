@@ -104,6 +104,7 @@ Route::post('sos',"App\Http\Controllers\SosController@store");
 Route::delete('sos/{id}',"App\Http\Controllers\SosController@delete");
 
 //Concurso
+Route::get('concurso/years',"App\Http\Controllers\ConcursoController@getYears");
 Route::get('concurso',"App\Http\Controllers\ConcursoController@index");
 Route::get('concurso/{id}',"App\Http\Controllers\ConcursoController@show");
 Route::put('concurso/{id}',"App\Http\Controllers\ConcursoController@update");
