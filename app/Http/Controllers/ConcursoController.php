@@ -10,15 +10,15 @@ use Carbon\Carbon;
 class ConcursoController extends Controller
 {
     use HelpersTrait;
-    public function getYears(Request $request){
+    public function getYears(){
         try {
             $response=[];
                 $query=Model::query();
                 $query->select(DB::raw('YEAR(created_at) as year'));
                 $query->orderBy(DB::raw('YEAR(created_at)'), 'desc');
                 $query->groupBy(DB::raw('YEAR(created_at)'));
-                $response=$query->get();
-            return $response;
+                return response()->json($query->get(), 200);
+
         } catch (\Exception $e) {
             return $this->HelpError($e);
         }
@@ -46,8 +46,7 @@ class ConcursoController extends Controller
                     $year=Carbon::createFromDate($year, 1, 1)->format('Y');
                     $query->whereYear('created_at', '=', $year);
                 }
-                //ordenamiento por año
-                $query->orderBy(DB::raw('YEAR(created_at)'), 'desc');
+
             DB::commit();
             $datos = $query->paginate(15);
             $response= [
