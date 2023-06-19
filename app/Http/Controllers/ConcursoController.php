@@ -46,6 +46,12 @@ class ConcursoController extends Controller
                     $year=Carbon::createFromDate($year, 1, 1)->format('Y');
                     $query->whereYear('created_at', '=', $year);
                 }
+                $month= $request->input('month') ?? null;
+                if($month){
+                    $month=Carbon::createFromDate(null, $month, 1)->format('m');
+                    $year = Carbon::createFromDate($year, 1, 1)->format('Y');
+                    $mount_concursos=Model::query()->whereYear('created_at', '=', $year)->whereMonth('created_at', '=', $month)->get();
+                }
 
             DB::commit();
             $datos = $query->paginate(15);
@@ -60,6 +66,9 @@ class ConcursoController extends Controller
             ];
             if($last_ganador){
                 $response['last_ganador']=$last_ganador;
+            }
+            if($month){
+                $response['mount_concursos']=$mount_concursos;
             }
             return $response;
         } catch (\Exception $e) {
