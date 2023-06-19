@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\concurso as Model;
 use App\Http\Traits\HelpersTrait;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 class ConcursoController extends Controller
 {
     use HelpersTrait;
@@ -22,10 +23,30 @@ class ConcursoController extends Controller
                 if($end_date){
                     $query->whereDate('created_at', '<=', $end_date);
                 }
+                $last_ganador = $request->input('last_ganador') ?? null;
+                if($last_ganador){
+                    $last_ganador=Model::query()->whereNotNull('ganador_id')->orderBy('created_at','desc')->first();
+                }
+                $year= $request->input('year') ?? null;
+                if($year){
+                    $year=Carbon::createFromDate($year, 1, 1)->format('Y');
+                    $query->whereYear('created_at', '=', $year);
+                }
             DB::commit();
-            return $this->HelpPaginate(
-                $query
-            );
+            $datos = $query->paginate(15);
+            $response= [
+                "data" => $datos->items(),
+                "pagination" => [
+                    "totalItems" => $datos->total(),
+                    "currentPage" => $datos->currentPage(),
+                    "itemsPerPage" => $datos->perPage(),
+                    "lastPage" => $datos->lastPage()
+                ]
+            ];
+            if($last_ganador){
+                $response['last_ganador']=$last_ganador;
+            }
+            return $response;
         } catch (\Exception $e) {
             DB::rollback();
             return $this->HelpError($e);
@@ -41,7 +62,7 @@ class ConcursoController extends Controller
     }
     public function store(Request $request){
         try {
-            
+
             $response=[];
             DB::beginTransaction();
                 $data=$request->all();
