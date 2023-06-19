@@ -13,16 +13,13 @@ class ConcursoController extends Controller
     public function getYears(Request $request){
         try {
             $response=[];
-            DB::beginTransaction();
                 $query=Model::query();
                 $query->select(DB::raw('YEAR(created_at) as year'));
+                $query->orderBy(DB::raw('YEAR(created_at)'), 'desc');
                 $query->groupBy(DB::raw('YEAR(created_at)'));
-                $query->orderBy(DB::raw('YEAR(created_at)'),'desc');
                 $response=$query->get();
-            DB::commit();
             return $response;
         } catch (\Exception $e) {
-            DB::rollback();
             return $this->HelpError($e);
         }
     }
