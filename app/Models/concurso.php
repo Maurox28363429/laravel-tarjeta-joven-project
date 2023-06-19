@@ -29,7 +29,7 @@ class concurso extends Model
     {
         return $this->belongsTo(User::class, 'ganador_id');
     }//User
-    
+
     public function setStepsAttribute($value){
         $this->attributes['steps'] = json_encode($value);
     }

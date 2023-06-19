@@ -26,6 +26,7 @@ class ConcursoController extends Controller
                 $last_ganador = $request->input('last_ganador') ?? null;
                 if($last_ganador){
                     $last_ganador=Model::query()->whereNotNull('ganador_id')->orderBy('created_at','desc')->first();
+                    $last_ganador = $last_ganador->user;
                 }
                 $year= $request->input('year') ?? null;
                 if($year){
