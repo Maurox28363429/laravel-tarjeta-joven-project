@@ -160,10 +160,11 @@ class UserController extends Controller
                     })
                     ->groupBy('vendedor')->get();
         }
-        $rol=$request->input('rol') ?? null;
+        $rol=$request->input('rol_id') ?? null;
         $name=$request->input('name') ?? null;
         $active=$request->input('active') ?? null;
         $selected=$request->input('selected') ?? null;
+        $comprada=$request->input('comprada') ?? null;
         //cargar relations
         $with=$request->input('with') ?? ['membresia'];
         $query->with($with);
@@ -181,6 +182,12 @@ class UserController extends Controller
             return [
                 "data"=>$query->get()
             ];
+        }
+        if($comprada){
+            $query
+            ->whereHas('membresia',function($q){
+                $q->where('type',"Comprada")->whereDate('fecha_cobro','>',Carbon::now());
+            });
         }
         return $this->HelpPaginate(
                 $query

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-//borrar
+//borraro
 //Route::get('example', 'App\Http\Controllers\UserController@example');
 //auth
 
@@ -134,6 +134,7 @@ Route::delete('payment-membresia/{id}',"App\Http\Controllers\PaymentMenbresiaCon
 Route::get('comercio-ofertas',"App\Http\Controllers\OfertasComercioController@index");
 Route::get('comercio-ofertas/{id}',"App\Http\Controllers\OfertasComercioController@show");
 Route::put('comercio-ofertas/{id}',"App\Http\Controllers\OfertasComercioController@update");
+Route::post('comercio-ofertas/{id}',"App\Http\Controllers\OfertasComercioController@update");
 Route::post('comercio-ofertas',"App\Http\Controllers\OfertasComercioController@store");
 Route::delete('comercio-ofertas/{id}',"App\Http\Controllers\OfertasComercioController@delete");
 //universidades

@@ -15,7 +15,7 @@ class membresia extends Model
         "membresia_id",
         "type"
     ];
-    protected $appends = ['status','price','days'];
+    protected $appends = ['status','status_num','price','days'];
 
     //accesor
     function getStatusAttribute() {
@@ -29,6 +29,20 @@ class membresia extends Model
         }
         if($diferencia<=0){
             $response="vencida";
+        }
+        return $response;
+    }
+    function getStatusNumAttribute() {
+        //init carbon
+        $nowTimeDate = Carbon::now();
+        $initDate=new Carbon($this->fecha_cobro);
+        $diferencia=$initDate->diffInDays($nowTimeDate);
+        $response=1;
+        if($nowTimeDate->greaterThanOrEqualTo($initDate)){
+            $diferencia="-".$diferencia;
+        }
+        if($diferencia<=0){
+            $response=0;
         }
         return $response;
     }
