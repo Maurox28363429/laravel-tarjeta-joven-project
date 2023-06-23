@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\tracking_comerio as Model;
 use App\Http\Traits\HelpersTrait;
-use App\Models\membresia as Model;
 use Illuminate\Support\Facades\DB;
-class MembresiaController extends Controller
+class TrackingComerioController extends Controller
 {
     use HelpersTrait;
-     public function index(Request $request){
+    public function index(Request $request){
         try {
             $response=[];
             DB::beginTransaction();
@@ -26,7 +26,11 @@ class MembresiaController extends Controller
     public function show($id,Request $request)
     {
         try {
-            return Model::find($id);
+            $data=Model::find($id);
+             if(!$data){
+                throw new \Exception("No encontrado", 404);
+            }
+            return $data;
         } catch (\Exception $e) {
             return $this->HelpError($e);
         }

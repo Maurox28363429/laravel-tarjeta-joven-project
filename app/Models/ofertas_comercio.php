@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Carbon\Carbon;
 class ofertas_comercio extends Model
 {
     use HasFactory;
@@ -38,4 +38,10 @@ class ofertas_comercio extends Model
     {
         return $this->belongsTo(User::class,'comercio_id');
     }
+    public function getFechaTopeDescuentoAttribute($value){
+        $date = new Carbon($value);
+        $date->addDay();
+        return $date->format("Y/m/d");
+    }
+
 }

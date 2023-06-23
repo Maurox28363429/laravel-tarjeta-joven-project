@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-//borrar
+//borraro
 //Route::get('example', 'App\Http\Controllers\UserController@example');
 //auth
 
@@ -74,7 +74,9 @@ Route::get('/export_form2_excel', 'App\Http\Controllers\FormularioController@exp
 Route::get('/export_users_excel', 'App\Http\Controllers\UserController@export_users_excel');
 
 Route::get('/export_vendedor_users_excel', 'App\Http\Controllers\UserController@export_vendedor_users_excel');
-//clientes
+//Dashboard
+Route::get('/dashboard_admin', 'App\Http\Controllers\DashboardController@admin');
+Route::get('/dashboard_comercio', 'App\Http\Controllers\DashboardController@comercio');
 
 //Roles
 Route::get('roles', 'App\Http\Controllers\RolesController@index');
@@ -102,8 +104,15 @@ Route::get('sos/{id}',"App\Http\Controllers\SosController@show");
 Route::put('sos/{id}',"App\Http\Controllers\SosController@update");
 Route::post('sos',"App\Http\Controllers\SosController@store");
 Route::delete('sos/{id}',"App\Http\Controllers\SosController@delete");
+//membresia
+Route::get('membresia',"App\Http\Controllers\MembresiaController@index");
+Route::get('membresia/{id}',"App\Http\Controllers\MembresiaController@show");
+Route::put('membresia/{id}',"App\Http\Controllers\MembresiaController@update");
+Route::post('membresia',"App\Http\Controllers\MembresiaController@store");
+Route::delete('membresia/{id}',"App\Http\Controllers\MembresiaController@delete");
 
 //Concurso
+Route::get('concurso/years',"App\Http\Controllers\ConcursoController@getYears");
 Route::get('concurso',"App\Http\Controllers\ConcursoController@index");
 Route::get('concurso/{id}',"App\Http\Controllers\ConcursoController@show");
 Route::put('concurso/{id}',"App\Http\Controllers\ConcursoController@update");
@@ -133,11 +142,13 @@ Route::delete('payment-membresia/{id}',"App\Http\Controllers\PaymentMenbresiaCon
 Route::get('comercio-ofertas',"App\Http\Controllers\OfertasComercioController@index");
 Route::get('comercio-ofertas/{id}',"App\Http\Controllers\OfertasComercioController@show");
 Route::put('comercio-ofertas/{id}',"App\Http\Controllers\OfertasComercioController@update");
+Route::post('comercio-ofertas/{id}',"App\Http\Controllers\OfertasComercioController@update");
 Route::post('comercio-ofertas',"App\Http\Controllers\OfertasComercioController@store");
 Route::delete('comercio-ofertas/{id}',"App\Http\Controllers\OfertasComercioController@delete");
 //universidades
 Route::get('universidades',"App\Http\Controllers\UniversidadesController@index");
 Route::get('universidades/{id}',"App\Http\Controllers\UniversidadesController@show");
+Route::post('universidades/{id}',"App\Http\Controllers\UniversidadesController@update");
 Route::put('universidades/{id}',"App\Http\Controllers\UniversidadesController@update");
 Route::post('universidades',"App\Http\Controllers\UniversidadesController@store");
 Route::delete('universidades/{id}',"App\Http\Controllers\UniversidadesController@delete");
@@ -167,7 +178,12 @@ Route::get('noticias_informativas/{id}',"App\Http\Controllers\NoticiasInformativ
 Route::post('noticias_informativas/{id}',"App\Http\Controllers\NoticiasInformativasController@update");
 Route::post('noticias_informativas',"App\Http\Controllers\NoticiasInformativasController@store");
 Route::delete('noticias_informativas/{id}',"App\Http\Controllers\NoticiasInformativasController@delete");
-
+//seguimiento de clientes en comercio
+Route::get('tracking',"App\Http\Controllers\TrackingComerioController@index");
+Route::get('tracking/{id}',"App\Http\Controllers\TrackingComerioController@show");
+Route::post('tracking/{id}',"App\Http\Controllers\TrackingComerioController@update");
+Route::post('tracking',"App\Http\Controllers\TrackingComerioController@store");
+Route::delete('tracking/{id}',"App\Http\Controllers\TrackingComerioController@delete");
 //version_app
 Route::get('versionapp',"App\Http\Controllers\VersionappController@get");
 

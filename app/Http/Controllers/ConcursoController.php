@@ -6,9 +6,23 @@ use Illuminate\Http\Request;
 use App\Models\concurso as Model;
 use App\Http\Traits\HelpersTrait;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 class ConcursoController extends Controller
 {
     use HelpersTrait;
+    public function getYears(){
+        try {
+            $response=[];
+                $query=Model::query();
+                $query->select(DB::raw('YEAR(created_at) as year'));
+                $query->orderBy(DB::raw('YEAR(created_at)'), 'desc');
+                $query->groupBy(DB::raw('YEAR(created_at)'));
+                return response()->json($query->get(), 200);
+
+        } catch (\Exception $e) {
+            return $this->HelpError($e);
+        }
+    }
     public function index(Request $request){
         try {
             $response=[];
@@ -22,10 +36,41 @@ class ConcursoController extends Controller
                 if($end_date){
                     $query->whereDate('created_at', '<=', $end_date);
                 }
+                $last_ganador = $request->input('last_ganador') ?? null;
+                if($last_ganador){
+                    $last_ganador=Model::query()->whereNotNull('ganador_id')->orderBy('created_at','desc')->first();
+                    $last_ganador = $last_ganador->user;
+                }
+                $year= $request->input('year') ?? null;
+                if($year){
+                    $year=Carbon::createFromDate($year, 1, 1)->format('Y');
+                    $query->whereYear('created_at', '=', $year);
+                }
+                $month= $request->input('month') ?? null;
+                if($month){
+                    $month=Carbon::createFromDate(null, $month, 1)->format('m');
+                    $year = Carbon::createFromDate($year, 1, 1)->format('Y');
+                    $mount_concursos=Model::query()->whereYear('created_at', '=', $year)->whereMonth('created_at', '=', $month)->get();
+                }
+
             DB::commit();
-            return $this->HelpPaginate(
-                $query
-            );
+            $datos = $query->paginate(15);
+            $response= [
+                "data" => $datos->items(),
+                "pagination" => [
+                    "totalItems" => $datos->total(),
+                    "currentPage" => $datos->currentPage(),
+                    "itemsPerPage" => $datos->perPage(),
+                    "lastPage" => $datos->lastPage()
+                ]
+            ];
+            if($last_ganador){
+                $response['last_ganador']=$last_ganador;
+            }
+            if($month){
+                $response['mount_concursos']=$mount_concursos;
+            }
+            return $response;
         } catch (\Exception $e) {
             DB::rollback();
             return $this->HelpError($e);
@@ -41,7 +86,7 @@ class ConcursoController extends Controller
     }
     public function store(Request $request){
         try {
-            
+
             $response=[];
             DB::beginTransaction();
                 $data=$request->all();

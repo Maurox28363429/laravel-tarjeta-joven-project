@@ -8,6 +8,8 @@ use App\Models\{
 };
 use App\Http\Traits\HelpersTrait;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 class OfertasComercioController extends Controller
 {
     use HelpersTrait;
@@ -62,6 +64,13 @@ class OfertasComercioController extends Controller
         $query=Models::query();
         try {
             DB::beginTransaction();
+            if($request->hasFile('img')){
+                $date = Carbon::now();
+                $text = $date->format('Y_m_d');
+                $image = $request->file('img');
+                $path = $image->store('public/images/ofertas/'.$text."/");
+                $data['img_array_url']=[env('APP_URL').Storage::url($path)];
+            }
                 $process=$query->create($data);
             DB::commit();
             $this->mensaje_realtime(
@@ -80,10 +89,32 @@ class OfertasComercioController extends Controller
         }
     }
     public function update($id,Request $request){
-        return $this->HelpUpdate(
-            Models::where("id",$id)->limit(1),
-            $request->all()
-        );
+        $data=$request->all();
+        $query=Models::query();
+         try {
+            DB::beginTransaction();
+                if($request->hasFile('img')){
+                    $date = Carbon::now();
+                    $text = $date->format('Y_m_d');
+                    $image = $request->file('img');
+                    $path = $image->store('public/images/ofertas/'.$text."/");
+                    $data['img_array_url']=[env('APP_URL').Storage::url($path)];
+                }
+               $process=$query->where('id',$id)->first();
+                if(!$process){
+                    throw new \Exception("No encontrado", 404);
+                }
+                $update_if=$process->update($data);
+            DB::commit();
+            return [
+                "message"=>"Datos actualizados",
+                "status"=>200,
+                "data"=>$process
+            ];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->HelpError($e);
+        }
     }
     public function delete($id,Request $request){
         return $this->HelpDelete(

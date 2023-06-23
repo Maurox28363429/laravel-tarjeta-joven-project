@@ -11,7 +11,13 @@ class noticias_informativas extends Model
     protected $fillable=[
         "titulo",
         "descripcion",
-        "img_url"
+        "img_url",
+        "prioridad",
+        "link_youtube",
+        "link_facebook",
+        "link_instragram",
+        "link_web",
+        "link_otros"
     ];
     public function getCreatedAtAttribute(){
         $date=explode(" ", $this->attributes['created_at']);

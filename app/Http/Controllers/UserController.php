@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
         User,
         membresia,
         comercio_oferta_cliente
+        payment_menbresia
     };
     use Maatwebsite\Excel\Facades\Excel;
     use App\Exports\{
@@ -161,10 +162,11 @@ class UserController extends Controller
                     })
                     ->groupBy('vendedor')->get();
         }
-        $rol=$request->input('rol') ?? null;
+        $rol=$request->input('rol_id') ?? null;
         $name=$request->input('name') ?? null;
         $active=$request->input('active') ?? null;
         $selected=$request->input('selected') ?? null;
+        $comprada=$request->input('comprada') ?? null;
         //cargar relations
         $with=$request->input('with') ?? ['membresia'];
         $query->with($with);
@@ -182,6 +184,12 @@ class UserController extends Controller
             return [
                 "data"=>$query->get()
             ];
+        }
+        if($comprada){
+            $query
+            ->whereHas('membresia',function($q){
+                $q->where('type',"Comprada")->whereDate('fecha_cobro','>',Carbon::now());
+            });
         }
         return $this->HelpPaginate(
                 $query
@@ -270,6 +278,7 @@ class UserController extends Controller
         if($comercio){
             $comercio->delete();
         }
+        payment_menbresia::query('user_id',$user->id)->delete();
         $user->delete();
         return response()->json([
             'status'=>200
