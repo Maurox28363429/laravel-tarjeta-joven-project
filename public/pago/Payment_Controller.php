@@ -3,34 +3,34 @@
 // $txt = json_encode($_GET);
 // fwrite($file, $txt);
 // fclose($file);
-// URL de la API a la que deseas hacer la publicación
-$url = 'https://api.tarjetajovendiamante.com/api/payment-membresia';
+// // URL de la API a la que deseas hacer la publicación
+// $url = 'https://api.tarjetajovendiamante.com/api/payment-membresia';
 
-// los datos que deseas enviar en la publicación
-$data = array(
-    'payment' => '9.99', 
-    'user_id' => $_GET['orderId'],
-    'membresia_id'=>6,
-    'referencia'=>"yappy_success",
-    "yappy"=>1
-);
+// // los datos que deseas enviar en la publicación
+// $data = array(
+//     'payment' => '9.99', 
+//     'user_id' => $_GET['orderId'],
+//     'membresia_id'=>6,
+//     'referencia'=>"yappy_success",
+//     "yappy"=>1
+// );
 
-// // inicializar una sesión cURL
-$ch = curl_init($url);
+// // // inicializar una sesión cURL
+// $ch = curl_init($url);
 
-// // establecer las opciones de la sesión cURL
-curl_setopt($ch, CURLOPT_POST, 1); // hacer una publicación
-curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data)); // establecer los datos a publicar
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // recibir la respuesta como una cadena
+// // // establecer las opciones de la sesión cURL
+// curl_setopt($ch, CURLOPT_POST, 1); // hacer una publicación
+// curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data)); // establecer los datos a publicar
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // recibir la respuesta como una cadena
 
-// // ejecutar la sesión cURL
-$response = json_decode(
-     curl_exec($ch)
-);
-$orderId=$response->id;
-// //echo(json_encode($response));
-// // cerrar la sesión cURL
-curl_close($ch);
+// // // ejecutar la sesión cURL
+// $response = json_decode(
+//      curl_exec($ch)
+// );
+// $orderId=$response->id;
+// // //echo(json_encode($response));
+// // // cerrar la sesión cURL
+// curl_close($ch);
 // Importar archivo .env
 $ID_DEL_COMERCIO="0932fb2c-4bc6-4568-9d34-b49d69f4dd53";
 $CLAVE_SECRETA="QkdfbUJxdXkzNklFcWd2ZnpBMWJJTU4uaWZRdjlvTGRQdE9OeUt0N1E3Y3prOGliRVlKcG5Bb2FodkxKaTlIMg==";
@@ -80,8 +80,8 @@ if ($response && $response['success']) {
         $response['unixTimestamp'],
         'YAP',
         'VEN',
-        $_GET['orderId'],
-        "https://app.tarjetajovendiamante.com/",
+        $_GET['user_id'],
+         "https://api.tarjetajovendiamante.com/api/payment-membresia/forzar_email/".$_GET['user_id'],
         'https://app.tarjetajovendiamante.com/',
         $domain,
         $CLAVE_SECRETA,

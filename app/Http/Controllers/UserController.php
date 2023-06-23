@@ -3,7 +3,8 @@ namespace App\Http\Controllers;
 
     use App\Models\{
         User,
-        membresia
+        membresia,
+        comercio_oferta_cliente
     };
     use Maatwebsite\Excel\Facades\Excel;
     use App\Exports\{
@@ -264,6 +265,10 @@ class UserController extends Controller
         $membresia=membresia::query()->where('user_id',$user->id)->first();
         if($membresia){
             $membresia->delete();
+        }
+        $comercio=comercio_oferta_cliente::query()->where('client_id',$user->id)->first();
+        if($comercio){
+            $comercio->delete();
         }
         $user->delete();
         return response()->json([

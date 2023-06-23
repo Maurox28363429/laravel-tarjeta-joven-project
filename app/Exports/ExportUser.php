@@ -15,37 +15,44 @@ class ExportUser implements FromCollection,WithHeadings
     public function collection()
     {
         $param=$this->parametros;
-        if($param['vendedor']){
-            $query=User::query();
-            if($param['init_date']){
-                $query->whereDate('created_at', '>=', $param['init_date']);
-            }
-            if($param['end_date']){
-                $query->whereDate('created_at', '<=', $param['end_date']);
-            }
+        $query=User::query();
+        if($param['init_date']){
+            $query->whereDate('created_at', '>=', $param['init_date']);
+        }
+        if($param['end_date']){
+            $query->whereDate('created_at', '<=', $param['end_date']);
+        }
+        if(isset($param['vendedor'])){
+            $query->where('vendedor','=',$param['vendedor']);
+        }
             return $query
-                    ->where('vendedor','=',$param['vendedor'])
                     ->where('role_id',3)
                     ->whereHas('membresia',function($q){
                         $q->where('type',"Comprada");
                     })->get()->map(function($form,$index){
+                        $fecha= new Carbon($form->created_at);
+                        $fecha = $fecha->format('d/m/Y');
                         return [
                             "consecutivo"=>$index+1,
+                            'vendedor'=>$form->vendedor,
                             "nombre"=>$form->name.' '.$form->last_name,
-                            'email'=>$form->email
+                            'email'=>$form->email,
+                            'FECHA'=>$fecha
                         ];
                     });
-        }
+        
     }
     public function headings():array
     {
         $param=$this->parametros;
-        if($param['vendedor']){
+
             return [
                 'CONSECUTIVO',
+                'VENDEDOR',
                 'NOMBRE',
-                'EMAIL'
+                'EMAIL',
+                'FECHA'
             ];
-        }
+        
     }
 }
