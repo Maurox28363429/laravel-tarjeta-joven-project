@@ -9,7 +9,7 @@ use App\Models\{
 use App\Http\Traits\HelpersTrait;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Storage;
 class OfertasComercioController extends Controller
 {
     use HelpersTrait;
@@ -100,7 +100,7 @@ class OfertasComercioController extends Controller
                     $path = $image->store('public/images/ofertas/'.$text."/");
                     $data['img_array_url']=[env('APP_URL').Storage::url($path)];
                 }
-               $process=$query->first();
+               $process=$query->where('id',$id)->first();
                 if(!$process){
                     throw new \Exception("No encontrado", 404);
                 }

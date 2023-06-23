@@ -8,6 +8,8 @@ use App\Models\{
 };
 use App\Http\Traits\HelpersTrait;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 class UniversidadesController extends Controller
 {
     use HelpersTrait;
@@ -50,6 +52,13 @@ class UniversidadesController extends Controller
         $query=Models::query();
         try {
             DB::beginTransaction();
+            if($request->hasFile('img')){
+                $date = Carbon::now();
+                $text = $date->format('Y_m_d');
+                $image = $request->file('img');
+                $path = $image->store('public/images/universidades/'.$text."/");
+                $data['img_array_url']=[env('APP_URL').Storage::url($path)];
+            }
                 $process=$query->create($data);
             DB::commit();
             $this->mensaje_realtime(
@@ -68,9 +77,17 @@ class UniversidadesController extends Controller
         }
     }
     public function update($id,Request $request){
+        $data=$request->all();
+        if($request->hasFile('img')){
+                $date = Carbon::now();
+                $text = $date->format('Y_m_d');
+                $image = $request->file('img');
+                $path = $image->store('public/images/universidades/'.$text."/");
+                $data['img_array_url']=[env('APP_URL').Storage::url($path)];
+            }
         return $this->HelpUpdate(
             Models::where("id",$id)->limit(1),
-            $request->all()
+            $data
         );
     }
     public function delete($id,Request $request){

@@ -3,7 +3,8 @@ namespace App\Http\Controllers;
 
     use App\Models\{
         User,
-        membresia
+        membresia,
+        payment_menbresia
     };
     use Maatwebsite\Excel\Facades\Excel;
     use App\Exports\{
@@ -272,6 +273,7 @@ class UserController extends Controller
         if($membresia){
             $membresia->delete();
         }
+        payment_menbresia::query('user_id',$user->id)->delete();
         $user->delete();
         return response()->json([
             'status'=>200
