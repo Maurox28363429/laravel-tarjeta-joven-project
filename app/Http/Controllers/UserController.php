@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
     use App\Models\{
         User,
         membresia,
-        comercio_oferta_cliente
+        comercio_oferta_cliente,
         payment_menbresia
     };
     use Maatwebsite\Excel\Facades\Excel;
@@ -270,15 +270,12 @@ class UserController extends Controller
     }
     public function delete($id,Request $request){
         $user=User::query()->where('id',$id)->first();
-        $membresia=membresia::query()->where('user_id',$user->id)->first();
-        if($membresia){
-            $membresia->delete();
-        }
-        $comercio=comercio_oferta_cliente::query()->where('client_id',$user->id)->first();
-        if($comercio){
-            $comercio->delete();
-        }
         payment_menbresia::query('user_id',$user->id)->delete();
+        membresia::query()->where('user_id',$user->id)->delete();
+
+        comercio_oferta_cliente::query()->where('client_id',$user->id)->delete();
+        comercio_oferta_cliente::query()->where('comercio_id',$user->id)->delete();
+        
         $user->delete();
         return response()->json([
             'status'=>200
