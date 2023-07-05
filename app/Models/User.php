@@ -39,7 +39,8 @@ class User extends Authenticatable implements JWTSubject
         "provincia",
         "dni_text",
         "parentesco",
-        "seguro_active"
+        "seguro_active",
+        "consecutivo"
     ];
 
     /**
