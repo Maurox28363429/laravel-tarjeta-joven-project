@@ -45,7 +45,8 @@ class OfertasComercioController extends Controller
         $dir=$request->input('dir') ??  null;
         if($dir && $dir!='todos'){
             $query->orderBy("prioridad","asc");
-            $query->whereJsonContains('link_map', ['ubication' => $dir]);
+            //$query->whereJsonContains('link_map', ['ubication' => $dir]);
+            $query->where('link_map','like','%'.$dir.'%');
         }
         return $this->HelpPaginate(
                 $query,
@@ -104,7 +105,7 @@ class OfertasComercioController extends Controller
                 if(!$process){
                     throw new \Exception("No encontrado", 404);
                 }
-                $update_if=$process->update($data);
+                $process->update($data);
             DB::commit();
             return [
                 "message"=>"Datos actualizados",

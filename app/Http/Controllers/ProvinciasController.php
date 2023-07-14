@@ -22,7 +22,7 @@ class ProvinciasController extends Controller
                 return $paginator->withPath('');
             }
         }
-        $query=Model::query();
+        $query=Model::query()->where('name','!=','');
 
         $sortUni=$request->input('sort_uni') ?? null;
         if($sortUni){
