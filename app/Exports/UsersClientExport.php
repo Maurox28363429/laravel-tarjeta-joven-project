@@ -7,7 +7,8 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-class UsersClientExport implements FromCollection,WithHeadings
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+class UsersClientExport implements FromCollection,WithHeadings,ShouldAutoSize
 {
 
     protected $parametros;
@@ -19,10 +20,11 @@ class UsersClientExport implements FromCollection,WithHeadings
     public function collection()
     {
         $param=$this->parametros;
-
+        User::where('consecutivo',0)->update(['consecutivo'=>99999999]);
         if(isset($param['membresia']) && $param['membresia']==true){
             return User::query()
                 ->with(['membresia'])
+                ->orderBy('consecutivo')
                 ->where('role_id',3)
                 ->whereHas('membresia',function($q){
                     $q->where('type',"Comprada")->whereDate('fecha_cobro','>',Carbon::now());
@@ -50,7 +52,7 @@ class UsersClientExport implements FromCollection,WithHeadings
                     //"direccion"=>$form->address ?? "No disponible",
                     //"dni"=>$form->dni ?? "No disponible",
                     "EMITIDO"=>$date ?? "No disponible",
-                    "dni"=>($form->dni!=null)? "SI":"NO",
+                    "dni"=>($form->dni!=null)? $form->dni:"NO",
 
                 ];
             });

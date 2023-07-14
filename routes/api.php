@@ -51,6 +51,8 @@ Route::get("woocommerce",function(Request $request){
 
 Route::post('importUserMembresia', 'App\Http\Controllers\UserController@importUserMembresia');
 
+Route::post('importUpdateUsers', 'App\Http\Controllers\UserController@importUpdateUsers');
+
 Route::post('register', 'App\Http\Controllers\UserController@register');
 Route::post('login', 'App\Http\Controllers\UserController@authenticate');
 

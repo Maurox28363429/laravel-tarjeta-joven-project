@@ -89,7 +89,7 @@ class UserController extends Controller
         }
     }
 
-	public function validateRecovery(Request $request){
+    public function validateRecovery(Request $request){
         try {
             $email=$request->input('email') ?? null;
             $code=$request->input('code') ?? null;
@@ -116,19 +116,19 @@ class UserController extends Controller
         try {
             $recovery_cod=$request->input('recovery_cod') ?? null;
             if(!$recovery_cod){
-		return ["message"=>"Codigo no encontrado","status"=>404];
+        return ["message"=>"Codigo no encontrado","status"=>404];
             }
             $password=$request->input('password') ?? null;
             if(!$password){
-		return ["message"=>"Contraseña no encontrado","status"=>404];
+        return ["message"=>"Contraseña no encontrado","status"=>404];
             }
             $email=$request->input('email') ?? null;
             if(!$email){
-		return ["message"=>"Email no encontrado","status"=>404];
+        return ["message"=>"Email no encontrado","status"=>404];
             }
             $user=User::where('email',$email)->where('recovery_cod',$recovery_cod)->first();
             if(!$user){
-		return ["message"=>"Usuario no encontrado","status"=>404];
+        return ["message"=>"Usuario no encontrado","status"=>404];
             }
             $user->password=bcrypt($password);
             $user->recovery_cod="";
@@ -270,7 +270,7 @@ class UserController extends Controller
     }
     public function delete($id,Request $request){
         $user=User::query()->where('id',$id)->first();
-        payment_menbresia::query('user_id',$user->id)->delete();
+        //payment_menbresia::query('user_id',$user->id)->delete();
         membresia::query()->where('user_id',$user->id)->delete();
 
         comercio_oferta_cliente::query()->where('client_id',$user->id)->delete();
@@ -314,7 +314,7 @@ class UserController extends Controller
             }
             return response()->json(compact('user'));
     }
-	public function register(Request $request)
+    public function register(Request $request)
     {
         try {
             DB::beginTransaction();
