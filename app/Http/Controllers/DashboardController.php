@@ -7,7 +7,9 @@ use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Models\{
     User,
-    tracking_comerio
+    tracking_comerio,
+    ofertas_comercio,
+    provincias
 };
 use App\Http\Traits\HelpersTrait;
 use Carbon\Carbon;
@@ -35,12 +37,12 @@ class DashboardController extends Controller
                 return $item->count();
             })->toArray();
 
-           $tracking_by_month=\Collect($tracking_by_month)->map(function ($item, $key) {
+            $tracking_by_month = \Collect($tracking_by_month)->map(function ($item, $key) {
                 return [
                     "mes" => $key,
                     "visitas" => $item
                 ];
-            })->toArray()->values();
+            })->values();
             $sexo_visitas = tracking_comerio::query()->where('comercio_id', $user->id)->with(['user' => function ($query) {
                 $query->select('id', 'sex');
             }])->get()->pluck('user.sex')->countBy()->toArray();
@@ -61,21 +63,31 @@ class DashboardController extends Controller
                     $provincia_visitas_parse[] = $value;
                 }
             }
-            $provincia_visitas = array_count_values($provincia_visitas_parse);
+            //$provincia_visitas = array_count_values($provincia_visitas_parse);
 
 
             $edades_visitas = tracking_comerio::query()->where('comercio_id', $user->id)->with(['user' => function ($query) {
                 $query->select('id', 'fecha_nacimiento');
             }])->get()->pluck('user.fecha_nacimiento')->map(function ($item) {
-                return Carbon::parse($item)->age;
+                $birthday = Carbon::parse($item);
+                return $birthday->diffInYears(Carbon::now());
             })->countBy()->toArray();
 
+            $edades_visitas_parse = [];
+            foreach ($edades_visitas as $key => $value) {
+                $edades_visitas_parse[] = [
+                    "edad" => $key,
+                    "visitas" => $value
+                ];
+            }
+            $edades_visitas = $edades_visitas_parse;
 
             return [
                 "visitas_mes" => $tracking_month,
                 "visitas_por_mes" => $tracking_by_month,
+                "promedio_visitas" => $tracking_by_month->avg('visitas'),
                 "sexo_visitas" => $sexo_visitas,
-                "provincia_visitas" => $provincia_visitas,
+                //"provincia_visitas" => $provincia_visitas,
                 "edades_visitas" =>  $edades_visitas
             ];
         } catch (\Exception $e) {
@@ -84,6 +96,34 @@ class DashboardController extends Controller
     }
     public function admin(Request $request)
     {
-        return 10;
+        $edades = User::query()
+            ->where('role_id', 3)
+            ->with(['membresia'])
+            ->whereHas('membresia', function ($q) {
+                $q->where('type', "Comprada");
+            })->get()->pluck('fecha_nacimiento')->map(function ($item) {
+                return Carbon::parse($item)->age;
+            })->countBy()->toArray();
+        $edades_array = [];
+        foreach ($edades as $key => $value) {
+            $edades_array[] = [
+                "edad" => $key,
+                "count" => $value
+            ];
+        }
+        
+        $provincias=provincias::all();
+        $empresas_por_provincia=[];
+        foreach ($provincias as $key => $value) {
+            $empresas_por_provincia[]=[
+                "provincia"=>$value->name,
+                "count"=>User::query()->where('role_id', 2)->where('provincia','like','%'.$value->name.'%')->count()
+            ];
+        }
+        return [
+            'edades_array' => $edades_array,
+            'empresas_por_provincia' => $empresas_por_provincia
+
+        ];
     }
 }
