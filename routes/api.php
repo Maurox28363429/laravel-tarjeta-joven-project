@@ -104,6 +104,7 @@ Route::delete('price-membresia/{id}',"App\Http\Controllers\PriceMembresiaControl
 Route::get('sos',"App\Http\Controllers\SosController@index");
 Route::get('sos/{id}',"App\Http\Controllers\SosController@show");
 Route::put('sos/{id}',"App\Http\Controllers\SosController@update");
+Route::post('sos/{id}',"App\Http\Controllers\SosController@update");
 Route::post('sos',"App\Http\Controllers\SosController@store");
 Route::delete('sos/{id}',"App\Http\Controllers\SosController@delete");
 //membresia
