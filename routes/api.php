@@ -119,6 +119,7 @@ Route::get('concurso/years',"App\Http\Controllers\ConcursoController@getYears");
 Route::get('concurso',"App\Http\Controllers\ConcursoController@index");
 Route::get('concurso/{id}',"App\Http\Controllers\ConcursoController@show");
 Route::put('concurso/{id}',"App\Http\Controllers\ConcursoController@update");
+Route::post('concurso/{id}',"App\Http\Controllers\ConcursoController@update");
 Route::post('concurso',"App\Http\Controllers\ConcursoController@store");
 Route::delete('concurso/{id}',"App\Http\Controllers\ConcursoController@delete");
 
@@ -162,6 +163,32 @@ Route::put('noticias/{id}',"App\Http\Controllers\NoticiasController@update");
 Route::post('noticias/{id}',"App\Http\Controllers\NoticiasController@update");
 Route::post('noticias',"App\Http\Controllers\NoticiasController@store");
 Route::delete('noticias/{id}',"App\Http\Controllers\NoticiasController@delete");
+//ProductosEcommercesController
+Route::get('productoEcommerce',"App\Http\Controllers\ProductosEcommercesController@index");
+
+Route::get('productoEcommerce/{id}',"App\Http\Controllers\ProductosEcommercesController@show");
+
+Route::put('productoEcommerce/{id}',"App\Http\Controllers\ProductosEcommercesController@update");
+
+Route::post('productoEcommerce/{id}',"App\Http\Controllers\ProductosEcommercesController@update");
+
+Route::post('productoEcommerce',"App\Http\Controllers\ProductosEcommercesController@store");
+
+Route::delete('productoEcommerce/{id}',"App\Http\Controllers\ProductosEcommercesController@delete");
+
+//Orden Ecommerce
+Route::get('ordenEcommerce',"App\Http\Controllers\OrdenEcommerceController@index");
+
+Route::get('ordenEcommerce/{id}',"App\Http\Controllers\OrdenEcommerceController@show");
+
+Route::put('ordenEcommerce/{id}',"App\Http\Controllers\OrdenEcommerceController@update");
+
+Route::post('ordenEcommerce/{id}',"App\Http\Controllers\OrdenEcommerceController@update");
+
+Route::post('ordenEcommerce',"App\Http\Controllers\OrdenEcommerceController@store");
+
+Route::delete('ordenEcommerce/{id}',"App\Http\Controllers\OrdenEcommerceController@delete");
+
 //ofertas percibidas por los clientes
 Route::get('cliente-comercio-ofertas',"App\Http\Controllers\ComercioOfertaClienteController@index");
 Route::get('cliente-comercio-ofertas/{id}',"App\Http\Controllers\ComercioOfertaClienteController@show");
@@ -181,6 +208,14 @@ Route::get('noticias_informativas/{id}',"App\Http\Controllers\NoticiasInformativ
 Route::post('noticias_informativas/{id}',"App\Http\Controllers\NoticiasInformativasController@update");
 Route::post('noticias_informativas',"App\Http\Controllers\NoticiasInformativasController@store");
 Route::delete('noticias_informativas/{id}',"App\Http\Controllers\NoticiasInformativasController@delete");
+
+//directivos
+Route::get('directivos',"App\Http\Controllers\DirectivosController@index");
+Route::get('directivos/{id}',"App\Http\Controllers\DirectivosController@show");
+Route::post('directivos/{id}',"App\Http\Controllers\DirectivosController@update");
+Route::post('directivos',"App\Http\Controllers\DirectivosController@store");
+Route::delete('directivos/{id}',"App\Http\Controllers\DirectivosController@delete");
+
 //seguimiento de clientes en comercio
 Route::get('tracking',"App\Http\Controllers\TrackingComerioController@index");
 Route::get('tracking/{id}',"App\Http\Controllers\TrackingComerioController@show");
