@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\concurso as Model;
 use App\Http\Traits\HelpersTrait;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
+    use Carbon\Carbon;
+    use Illuminate\Support\Facades\Storage;
 class ConcursoController extends Controller
 {
     use HelpersTrait;
@@ -51,6 +52,12 @@ class ConcursoController extends Controller
                     $month=Carbon::createFromDate(null, $month, 1)->format('m');
                     $year = Carbon::createFromDate($year, 1, 1)->format('Y');
                     $mount_concursos=Model::query()->whereYear('created_at', '=', $year)->whereMonth('created_at', '=', $month)->get();
+                }
+                $search = $request->input('search') ?? null;
+                if($search){
+                    $query->whereHas('user', function ($query) use ($search) {
+                        $query->WhereRaw("CONCAT(`name`, ' ', `last_name`) LIKE ?", ['%' . $search . '%']);
+                    });
                 }
 
             DB::commit();
