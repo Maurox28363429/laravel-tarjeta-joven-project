@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\{
-    ofertas_comercio as Models
+    ofertas_comercio as Models,
+    User,
+    notify
 };
 use App\Http\Traits\HelpersTrait;
 use Illuminate\Support\Facades\DB;
@@ -79,6 +81,17 @@ class OfertasComercioController extends Controller
                 'ofertas',
                 $process->id
             );
+            $usuarios= User::query()->select(['id'])->where('role_id', 3)->get();
+            foreach ($usuarios as $key => $value) {
+                notify::create([
+                    "titulo"=>"Se creo una nueva oferta",
+                    "body"=>'',
+                    "user_id"=>$value->id,
+                    "data"=>$process,
+                    "type"=>'ofertas',
+                    "id_post"=>$process->id,
+                ]);
+            }
             return [
                 "message"=>"Datos creados",
                 "status"=>200,

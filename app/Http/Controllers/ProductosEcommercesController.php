@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\ProductosEcommerces as Models;
+use App\Models\{
+    ProductosEcommerces as Models,
+    User,
+    notify
+};
 use App\Http\Traits\HelpersTrait;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -21,6 +25,10 @@ class ProductosEcommercesController extends Controller
         if($search != ''){
             $query->where('nombre', 'like', '%' . $search . '%');
         }
+        $categori_id = $request->input('category_id') ?? null;
+        if($categori_id){
+            $query->where('category_id',$categori_id);
+        }
         return $this->HelpPaginate(
             $query
         );
@@ -35,18 +43,44 @@ class ProductosEcommercesController extends Controller
     }
     public function store(Request $request)
     {
-        $data = $request->all();
-        if ($request->hasFile('img')) {
-            $date = Carbon::now();
-            $text = $date->format('Y_m_d');
-            $image = $request->file('img');
-            $path = $image->store('public/images/productos/' . $text . "/");
-            $data['img'] = env('APP_URL') . Storage::url($path);
+        try {
+            DB::beginTransaction();
+            $data = $request->all();
+            if ($request->hasFile('img')) {
+                $date = Carbon::now();
+                $text = $date->format('Y_m_d');
+                $image = $request->file('img');
+                $path = $image->store('public/images/productos/' . $text . "/");
+                $data['img'] = env('APP_URL') . Storage::url($path);
+            }
+            $query=Models::query();
+            $process=$query->create($data);
+            $this->mensaje_realtime(
+                'Se creo un nuevo producto',
+                'producto',
+                $process->id
+            );
+            $usuarios= User::query()->select(['id'])->where('role_id', 3)->get();
+            foreach ($usuarios as $key => $value) {
+                notify::create([
+                    "titulo"=>"Se creo un nuevo Producto",
+                    "body"=>'',
+                    "user_id"=>$value->id,
+                    "data"=>$process,
+                    "type"=>'producto',
+                    "id_post"=>$process->id,
+                ]);
+            }
+            DB::commit();
+        return [
+            "message"=>"Datos creados",
+            "status"=>200,
+            "data"=>$process
+        ];
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $this->HelpError($e);
         }
-        return $this->HelpStore(
-            Models::query(),
-            $data
-        );
     }
     public function update($id, Request $request)
     {

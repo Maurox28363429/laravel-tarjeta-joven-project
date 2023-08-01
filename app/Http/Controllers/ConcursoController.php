@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\concurso as Model;
+use App\Models\{
+    concurso as Model,
+    User,
+    notify
+};
 use App\Http\Traits\HelpersTrait;
 use Illuminate\Support\Facades\DB;
     use Carbon\Carbon;
@@ -104,9 +108,29 @@ class ConcursoController extends Controller
                     $path = $image->store('public/images/concurso/'.$text."/");
                     $data['img']=env('APP_URL').Storage::url($path);
                 }
-                $response=Model::create($data);
+                $process=Model::create($data);
             DB::commit();
-            return $response;
+            $this->mensaje_realtime(
+                'Se añadio un nuevo concurso',
+                'premios',
+                $process->id
+            );
+            $usuarios= User::query()->select(['id'])->where('role_id', 3)->get();
+            foreach ($usuarios as $key => $value) {
+                notify::create([
+                    "titulo"=>"Se creo un nuevo concurso",
+                    "body"=>'',
+                    "user_id"=>$value->id,
+                    "data"=>$process,
+                    "type"=>'premios',
+                    "id_post"=>$process->id,
+                ]);
+            }
+            return [
+                "message"=>"Datos creados",
+                "status"=>200,
+                "data"=>$process
+            ];
         } catch (\Exception $e) {
             DB::rollback();
             return $this->HelpError($e);

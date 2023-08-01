@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Traits\HelpersTrait;
 use Illuminate\Http\Request;
 use App\Models\{
-    noticias_informativas as Model
+    noticias_informativas as Model,
+    User,
+    notify
 };
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
@@ -43,6 +45,17 @@ class NoticiasInformativasController extends Controller
                 'noticias',
                 $process->id
             );
+            $usuarios= User::query()->select(['id'])->where('role_id', 3)->get();
+            foreach ($usuarios as $key => $value) {
+                notify::create([
+                    "titulo"=>"Se creo una nueva noticia",
+                    "body"=>'',
+                    "user_id"=>$value->id,
+                    "data"=>$process,
+                    "type"=>'noticias',
+                    "id_post"=>$process->id,
+                ]);
+            }
             return [
                 "message"=>"Datos creados",
                 "status"=>200,

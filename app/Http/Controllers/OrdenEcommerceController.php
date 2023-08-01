@@ -21,6 +21,20 @@ class OrdenEcommerceController extends Controller
         $query = Models::query();
         $with = $request->input('with') ?? [];
         $query->with($with);
+        $search = $request->input('search') ?? null;
+        if($search){
+            $query->whereHas('cliente', function ($query) use ($search) {
+                $query->whereRaw("CONCAT(name,' ',last_name) LIKE ?", "%{$search}%");
+            });
+        }
+        $initDate = $request->input('initDate') ?? null;
+        $endDate = $request->input('endDate') ?? null;
+        if($initDate){
+            $query->whereDate('created_at', '>=', $initDate);
+        }
+        if($endDate){
+            $query->whereDate('created_at', '<=', $endDate);
+        }
         return $this->HelpPaginate(
             $query
         );
@@ -43,10 +57,10 @@ class OrdenEcommerceController extends Controller
             $path = $image->store('public/images/productos/' . $text . "/");
             $data['img'] = env('APP_URL') . Storage::url($path);
         }
-        
+
         $productos = $data['json_productos'];
         foreach ($productos as $key => $value) {
-          
+
             $producto = ProductosEcommerces::where('id', $value['id'])->first();
             $producto->stock = $producto->stock - $value['cantidad'];
             $producto->save();

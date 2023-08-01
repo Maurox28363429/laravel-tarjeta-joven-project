@@ -12,7 +12,9 @@ class notify extends Model
         "titulo",
         "body",
         "user_id",
-        "data"
+        "data",
+        "type",
+        "id_post"
     ];
     public function setDataAttribute($value){
         $this->attributes['data'] = json_encode($value);

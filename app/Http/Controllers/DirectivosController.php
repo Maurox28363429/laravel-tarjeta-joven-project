@@ -14,7 +14,11 @@ class DirectivosController extends Controller
         try {
             $response=[];
             DB::beginTransaction();
-                $query=Model::query()->orderBy('prioridad','asc');
+                $query=Model::query();
+                $search=$request->input('search') ?? null;
+                if($search){
+                    $query->where('nombre','like','%'.$search.'%');
+                }
             DB::commit();
             return $this->HelpPaginate(
                 $query
