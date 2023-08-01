@@ -82,7 +82,7 @@ if ($response && $response['success']) {
         'VEN',
         $_GET['user_id'],
          "https://api.tarjetajovendiamante.com/api/payment-membresia/forzar_email/".$_GET['user_id'],
-        'https://app.tarjetajovendiamante.com/',
+        'https://api.tarjetajovendiamante.com/cerrar.php',
         $domain,
         $CLAVE_SECRETA,
         $MODO_DE_PRUEBAS,

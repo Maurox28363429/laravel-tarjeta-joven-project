@@ -45,8 +45,8 @@ class OfertasComercioController extends Controller
         $dir=$request->input('dir') ??  null;
         if($dir && $dir!='todos'){
             $query->orderBy("prioridad","asc");
-            //$query->whereJsonContains('link_map', ['ubication' => $dir]);
-            $query->where('link_map','like','%'.$dir.'%');
+            $query->whereJsonContains('link_map', ['ubication' => $dir]);
+            //$query->where('link_map','like','%'.$dir.'%');
         }
         return $this->HelpPaginate(
                 $query,

@@ -14,7 +14,7 @@ class DirectivosController extends Controller
         try {
             $response=[];
             DB::beginTransaction();
-                $query=Model::query()->orderBy('prioridad','asc');
+                $query=Model::query();
             DB::commit();
             return $this->HelpPaginate(
                 $query

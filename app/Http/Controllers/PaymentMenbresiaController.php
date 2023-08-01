@@ -112,9 +112,15 @@ class PaymentMenbresiaController extends Controller
                 }
             DB::commit();
             return $model;
-        } catch (\Exception $e) {
+        } catch (\Exception $error) {
             DB::rollBack();
-            return $this->HelpError($e);
+            $json_res=[
+                "file"=>$error->getFile(),
+                "message"=>$error->getMessage(),
+                "error"=>$error->getMessage(),
+                "line"=>$error->getLine()
+            ];
+            return $json_res;
         }
     }
     public function forzar($id){

@@ -21,7 +21,7 @@ class CreateOrdenEcommercesTable extends Migration
             $table->double('total', 8, 2);
             $table->string('estado')->default('pendiente');
             $table->string('tipo_pago')->default('efectivo');
-            $table->text('img')->default('https://placehold.co/600x400/png');
+            $table->text('img')->nullable();
             $table->timestamps();
         });
     }

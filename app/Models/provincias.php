@@ -18,8 +18,8 @@ class provincias extends Model
     public function getOfertasAttribute() {
         $dir=$this->attributes['name'];
         $query=ofertas_comercio::query();
-        //$query->whereJsonContains('link_map', ['ubication' => $dir]);
-        $query->where('link_map','like','%'.$dir.'%');
+        $query->whereJsonContains('link_map', ['ubication' => $dir]);
+        //$query->where('link_map','like','%'.$dir.'%');
         return $query->count();
     } 
     function getUniversidadesAttribute() {
