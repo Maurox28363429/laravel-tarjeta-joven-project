@@ -65,6 +65,7 @@ Route::post('putRecovery', 'App\Http\Controllers\UserController@putRecovery');
 //user
 Route::post('validateRecovery', 'App\Http\Controllers\UserController@validateRecovery');
 Route::get('user/{id}', 'App\Http\Controllers\UserController@show');
+Route::get('export_pdf_seguro/{id}', 'App\Http\Controllers\UserController@export_pdf_seguro');
 Route::get('users', 'App\Http\Controllers\UserController@index');
 Route::put('user/{id}', 'App\Http\Controllers\UserController@update');
 Route::post('user/{id}', 'App\Http\Controllers\UserController@update');
@@ -227,7 +228,12 @@ Route::get('versionapp',"App\Http\Controllers\VersionappController@get");
 
 Route::post('versionapp',"App\Http\Controllers\VersionappController@update");
 
-
+//categoria de productos
+Route::get('product-category',"App\Http\Controllers\ProductoCategoriasController@index");
+Route::get('product-category/{id}',"App\Http\Controllers\ProductoCategoriasController@show");
+Route::post('product-category/{id}',"App\Http\Controllers\ProductoCategoriasController@update");
+Route::post('product-category',"App\Http\Controllers\ProductoCategoriasController@store");
+Route::delete('product-category/{id}',"App\Http\Controllers\ProductoCategoriasController@delete");
 //Noticias Pachama
 Route::get('noticias_pachama',"App\Http\Controllers\NoticiasPachamaController@index");
 Route::get('noticias_pachama/{id}',"App\Http\Controllers\NoticiasPachamaController@show");
@@ -235,6 +241,18 @@ Route::post('noticias_pachama/{id}',"App\Http\Controllers\NoticiasPachamaControl
 Route::post('noticias_pachama',"App\Http\Controllers\NoticiasPachamaController@store");
 Route::delete('noticias_pachama/{id}',"App\Http\Controllers\NoticiasPachamaController@delete");
 
+//Notificaciones notify
+Route::get('notify',"App\Http\Controllers\NotifyController@index");
+Route::get('notify/{id}',"App\Http\Controllers\NotifyController@show");
+Route::post('notify/{id}',"App\Http\Controllers\NotifyController@update");
+Route::post('notify',"App\Http\Controllers\NotifyController@store");
+Route::delete('notify/{id}',"App\Http\Controllers\NotifyController@delete");
+//Consecutivos
+Route::get('consecutivos',"App\Http\Controllers\ConsecutivosController@index");
+Route::get('consecutivos/{id}',"App\Http\Controllers\ConsecutivosController@show");
+Route::post('consecutivos/{id}',"App\Http\Controllers\ConsecutivosController@update");
+Route::post('consecutivos',"App\Http\Controllers\ConsecutivosController@store");
+Route::delete('consecutivos/{id}',"App\Http\Controllers\ConsecutivosController@delete");
 //Formulario2
 Route::get('formulario2',"App\Http\Controllers\FormularioController@index");
 Route::get('formulario2/{id}',"App\Http\Controllers\FormularioController@show");

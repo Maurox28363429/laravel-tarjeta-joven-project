@@ -40,7 +40,8 @@ class User extends Authenticatable implements JWTSubject
         "dni_text",
         "parentesco",
         "seguro_active",
-        "consecutivo"
+        "consecutivo",
+        "json_consecutivos"
     ];
 
     /**
@@ -73,23 +74,34 @@ class User extends Authenticatable implements JWTSubject
     }
     public function membresia()
     {
-        return $this->belongsTo(membresia::class, 'id','user_id');
+        return $this->belongsTo(membresia::class, 'id', 'user_id');
     }
-    public function getImgUrlAttribute($value){
-        if($value==null || $value==''){
-            if($this->attributes['sex']==1){
-                return env('APP_URL')."assets/img/hombre.png";
-            }else{
-                return env('APP_URL')."assets/img/mujer.png";
+    public function getImgUrlAttribute($value)
+    {
+        if ($value == null || $value == '') {
+            if ($this->attributes['sex'] == 1) {
+                return env('APP_URL') . "assets/img/hombre.png";
+            } else {
+                return env('APP_URL') . "assets/img/mujer.png";
             }
-        }else{
+        } else {
             return $value;
         }
     }
-    public function setProvinciaAttribute($value){
+    public function setProvinciaAttribute($value)
+    {
         $this->attributes['provincia'] = json_encode($value);
     }
-    public function getProvinciaAttribute($value){
+    public function getProvinciaAttribute($value)
+    {
+        return json_decode($value);
+    }
+    public function setJsonConsecutivosAttribute($value)
+    {
+        $this->attributes['json_consecutivos'] = json_encode($value);
+    }
+    public function getJsonConsecutivosAttribute($value)
+    {
         return json_decode($value);
     }
 }

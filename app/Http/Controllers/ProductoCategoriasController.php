@@ -3,32 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\notify as Models;
+use App\Models\productoCategorias as Models;
 use App\Http\Traits\HelpersTrait;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
-class NotifyController extends Controller
+class ProductoCategoriasController extends Controller
 {
     use HelpersTrait;
     public function index(Request $request)
     {
         $query = Models::query();
         $with = $request->input('with') ?? [];
-        $query->with($with)->orderBy('id','desc');
-        $user_id=$request->input('user_id') ?? null;
-        if($user_id){
-            $query->where('user_id',$user_id);
+        $query->with($with);
+        $search = $request->input('search') ?? '';
+        if($search != ''){
+            $query->where('name', 'like', '%' . $search . '%');
         }
-        $datos=$query->paginate(15);
-        return [
-            "data"=>$datos->items(),
-            "pagination"=>[
-                "totalItems"=>$datos->total(),
-                "currentPage"=>$datos->currentPage(),
-                "itemsPerPage"=>$datos->perPage(),
-                "lastPage"=>$datos->lastPage()
-            ],
-            "notificaciones"=>$query->count()
-        ];
+        return $this->HelpPaginate(
+            $query
+        );
     }
     public function show($id, Request $request)
     {
@@ -41,6 +35,13 @@ class NotifyController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        if ($request->hasFile('icon')) {
+            $date = Carbon::now();
+            $text = $date->format('Y_m_d');
+            $image = $request->file('icon');
+            $path = $image->store('public/images/categorias/' . $text . "/");
+            $data['icon'] = env('APP_URL') . Storage::url($path);
+        }
         return $this->HelpStore(
             Models::query(),
             $data
@@ -49,6 +50,13 @@ class NotifyController extends Controller
     public function update($id, Request $request)
     {
         $data = $request->all();
+        if ($request->hasFile('icon')) {
+            $date = Carbon::now();
+            $text = $date->format('Y_m_d');
+            $image = $request->file('icon');
+            $path = $image->store('public/images/categorias/' . $text . "/");
+            $data['icon'] = env('APP_URL') . Storage::url($path);
+        }
         return $this->HelpUpdate(
             Models::where("id", $id)->limit(1),
             $request->all()

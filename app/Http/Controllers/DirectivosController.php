@@ -15,6 +15,10 @@ class DirectivosController extends Controller
             $response=[];
             DB::beginTransaction();
                 $query=Model::query();
+                $search=$request->input('search') ?? null;
+                if($search){
+                    $query->where('nombre','like','%'.$search.'%');
+                }
             DB::commit();
             return $this->HelpPaginate(
                 $query

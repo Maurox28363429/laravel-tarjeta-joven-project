@@ -14,6 +14,11 @@ class ProductosEcommerces extends Model
         "img",
         "precio",
         "whatsap",
-        "stock"
+        "stock",
+        "category_id"
     ];
+    public function categoria()
+    {
+        return $this->belongsTo(productoCategorias::class, 'category_id');
+    }
 }
