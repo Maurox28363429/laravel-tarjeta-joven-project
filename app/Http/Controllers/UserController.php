@@ -32,9 +32,21 @@ class UserController extends Controller
     {
         return 10;
     }
+    public function importUpdateUsers(Request $request){
+        $data=$request->input('data');
+        foreach ($data as $key => $value) {
+
+            User::where('email',$value['MAIL'])->update([
+                "dni_text" => $value["DNI"] ?? '',
+                "beneficiario_poliza_name" => $value["BENEFICIARIO"] ?? '',
+                "beneficiario_poliza_cedula" => $value["DNI_BENEFICIARIO"] ?? ''
+            ]);
+        }
+        return "paso";
+    }
     public function importUserMembresia(Request $request)
     {
-        $file = $request->file('excel');
+        $file=$request->file('excel');
         Excel::import(new UserPaymentMembresiaAllImport, $file);
         return ['message' => 'existoso'];
     }
