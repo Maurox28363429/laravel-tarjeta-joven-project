@@ -80,9 +80,9 @@ class User extends Authenticatable implements JWTSubject
     {
         if ($value == null || $value == '') {
             if ($this->attributes['sex'] == 1) {
-                return env('APP_URL') . "assets/img/hombre.png";
+                return env('APP_URL') . "/assets/img/hombre.png";
             } else {
-                return env('APP_URL') . "assets/img/mujer.png";
+                return env('APP_URL') . "/assets/img/mujer.png";
             }
         } else {
             return $value;

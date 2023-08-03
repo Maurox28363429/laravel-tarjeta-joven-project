@@ -32,7 +32,6 @@ class UserController extends Controller
     {
         return 10;
     }
-<<<<<<< HEAD
     public function importUpdateUsers(Request $request){
         $data=$request->input('data');
         foreach ($data as $key => $value) {
@@ -45,13 +44,9 @@ class UserController extends Controller
         }
         return "paso";
     }
-    public function importUserMembresia(Request $request){
-        $file=$request->file('excel');
-=======
     public function importUserMembresia(Request $request)
     {
-        $file = $request->file('excel');
->>>>>>> 91a53b6d9f8ae0a14291ad3567eac56a8dad6f1c
+        $file=$request->file('excel');
         Excel::import(new UserPaymentMembresiaAllImport, $file);
         return ['message' => 'existoso'];
     }
