@@ -19,6 +19,10 @@ class NoticiasPachamaController extends Controller
     public function index(Request $request)
     {
         $query = Model::query();
+        $search = $request->input('search') ?? null;
+        if($search){
+            $query->where('titulo', 'LIKE', "%$search%")->orWhere('descripcion', 'LIKE', "%$search%");
+        }
         return $this->HelpPaginate(
             $query
         );
