@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use Carbon\Carbon;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +20,21 @@ use Illuminate\Support\Facades\DB;
 //borraro
 //Route::get('example', 'App\Http\Controllers\UserController@example');
 //auth
+Route::post('mau_import',function(Request $request){
+    $data=$request->input('data');
+    foreach ($data as $key => $value) {
+        $fechaNacimiento = $value['FECHA_NACIMIENTO'];
+        $fechaNacimiento = Carbon::createFromFormat('m/d/Y', $fechaNacimiento)->format('Y-m-d');
+
+        User::where('email',$value['MAIL'])->update([
+        "fecha_nacimiento"=>$fechaNacimiento,
+        "beneficiario_poliza_name"=>$value['NOMBRE_BENEFICIARIO'] ?? null,
+        "beneficiario_poliza_cedula"=>$value['DNI_BENEFICIARIO'] ?? null,
+        "dni_text"=>$value['DNI'] ?? null,
+        ]);
+    }
+});
+
 
 Route::post("woocommerce",function(Request $request){
     $filename = 'archivo.txt';

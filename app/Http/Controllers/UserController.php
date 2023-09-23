@@ -88,6 +88,7 @@ class UserController extends Controller
             'valor' => $consecutivo
         ]);
         $consecutivo = str_pad($consecutivo, 6, '0', STR_PAD_LEFT);
+        $user->consecutivo=str_pad($user->consecutivo, 6, '0', STR_PAD_LEFT);
         $array_consecutivos = $user->json_consecutivos ?? [];
         $array_consecutivos[] = $consecutivo;
         User::query()
@@ -102,8 +103,9 @@ class UserController extends Controller
             'consecutivo' => $consecutivo
         ])->setPaper($customPaper);
         $pdf->render();
-        return $pdf->stream();
-        return $pdf->download('correo_seguro.pdf');
+        //return $pdf->stream();
+        $nombre=$user->name.' '.$user->last_name;
+        return $pdf->download($nombre.'.pdf');
     }
     public function export_users_excel(Request $request)
     {

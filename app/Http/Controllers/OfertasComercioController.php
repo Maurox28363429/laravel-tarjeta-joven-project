@@ -74,6 +74,19 @@ class OfertasComercioController extends Controller
                 $path = $image->store('public/images/ofertas/'.$text."/");
                 $data['img_array_url']=[env('APP_URL').Storage::url($path)];
             }
+            if(!isset($data["price_total"]) || $data["price_total"]==""){
+                $data["price_total"]=0;
+            }
+            if(!isset($data["descuento"]) || $data["descuento"]==""){
+                $data["descuento"]=0;
+            }
+            if(!isset($data["fecha_tope_descuento"]) || $data["fecha_tope_descuento"]==""){
+               $data["fecha_tope_descuento"]=""; 
+            }
+            if(!isset($data["stock"]) || $data["stock"]==""){
+                $data["stock"]=0;
+            }
+            
                 $process=$query->create($data);
             DB::commit();
             $this->mensaje_realtime(
@@ -113,6 +126,18 @@ class OfertasComercioController extends Controller
                     $image = $request->file('img');
                     $path = $image->store('public/images/ofertas/'.$text."/");
                     $data['img_array_url']=[env('APP_URL').Storage::url($path)];
+                }
+                if(!isset($data["price_total"]) || $data["price_total"]==""){
+                    $data["price_total"]=0;
+                }
+                if(!isset($data["descuento"]) || $data["descuento"]==""){
+                    $data["descuento"]=0;
+                }
+                if(!isset($data["fecha_tope_descuento"]) || $data["fecha_tope_descuento"]==""){
+                   $data["fecha_tope_descuento"]=""; 
+                }
+                if(!isset($data["stock"]) || $data["stock"]==""){
+                    $data["stock"]=0;
                 }
                $process=$query->where('id',$id)->first();
                 if(!$process){

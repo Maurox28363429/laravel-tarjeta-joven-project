@@ -26,15 +26,21 @@ class UsersClientExport implements FromCollection,WithHeadings,ShouldAutoSize
                 ->with(['membresia'])
                 ->orderBy('consecutivo')
                 ->where('role_id',3)
+                ->where('name','not like','%promotor%')
                 ->whereHas('membresia',function($q){
                     $q->where('type',"Comprada")->whereDate('fecha_cobro','>',Carbon::now());
                 })
                 ->get()
                 ->map(function($form,$index){
-                $date = Carbon::createFromFormat('Y-m-d H:i:s',$form->created_at)->format('d/m/Y H:i:s');
-                $fecha_nacimiento= new Carbon($form->fecha_nacimiento);
-                $fecha_nacimiento = $fecha_nacimiento->format('d/m/Y');
-                $index++;
+                    $index++;
+                    User::where('id',$form->id)
+                    ->where('name', 'not like', '%promotor%')
+                    ->update(['consecutivo'=>$index]);
+
+                    $date = Carbon::createFromFormat('Y-m-d H:i:s',$form->created_at)->format('d/m/Y H:i:s');
+                    $fecha_nacimiento= new Carbon($form->fecha_nacimiento);
+                    $fecha_nacimiento = $fecha_nacimiento->format('d/m/Y');
+                    
                 return [
                     "#"=>sprintf('%05d',$index),
                     "Nombre"=>$form->name." ".$form->last_name ?? "No disponible",

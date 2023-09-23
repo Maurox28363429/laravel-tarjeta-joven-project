@@ -28,7 +28,7 @@
         {{date('d/m/Y')}}
     </div>
     <div style="margin:1em 0;font-size:1.1em">
-        Número de Póliza: 10-09-2000276-{{$consecutivo}}
+        Número de Póliza: 10-09-2000276-{{$user["consecutivo"]}}
     </div>
     <div style="margin:1em 0;font-size:1.1em">
         Estimado(a) <b>{{$user['name'].' '.$user['last_name']}}</b>
@@ -82,7 +82,7 @@
     <div style="margin:0.8em 0">
         RESUMEN DE COBERTURA
     </div>
-    <div style="margin:0.4em 0">Número de póliza: 10-09-2000276-{{$consecutivo}}</div>
+    <div style="margin:0.4em 0">Número de póliza: 10-09-2000276-{{$user["consecutivo"]}}</div>
     <div style="margin:0.4em 0">Nombre Completo de Asegurado(a): {{ $user['name']." ".$user['last_name'] }}</div>
     <div style="margin:0.4em 0">Cedula: {{ $user['dni_text'] }}</div>
     <div style="margin:0.4em 0">Fecha de nacimiento: {{ $user['fecha_nacimiento'] }}</div>
